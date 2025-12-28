@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkmarkdown.Core", "Checkmarkdown.Core\Checkmarkdown.Core.csproj", "{A42EA70E-D065-4D96-8C14-54C2F4E8B46E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkmarkdown.Core.Tests", "Checkmarkdown.Core.Tests\Checkmarkdown.Core.Tests.csproj", "{8317CA96-6095-407B-9B57-F6F186BA5DF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A42EA70E-D065-4D96-8C14-54C2F4E8B46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A42EA70E-D065-4D96-8C14-54C2F4E8B46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A42EA70E-D065-4D96-8C14-54C2F4E8B46E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8317CA96-6095-407B-9B57-F6F186BA5DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8317CA96-6095-407B-9B57-F6F186BA5DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8317CA96-6095-407B-9B57-F6F186BA5DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8317CA96-6095-407B-9B57-F6F186BA5DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
