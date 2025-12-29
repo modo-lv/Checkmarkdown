@@ -51,7 +51,7 @@ public class AstProcessorPipeline {
     /// </summary>
     public static AstProcessorPipeline CreateDefault() {
         return new AstProcessorPipeline()
-            .Add(new ListItemProcessor());
+            .Add(new ListItemAttributeProcessor());
     }
 
 }
