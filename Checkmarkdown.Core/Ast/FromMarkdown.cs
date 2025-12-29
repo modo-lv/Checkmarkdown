@@ -22,6 +22,7 @@ public static class FromMarkdown {
             EmphasisInline em => new Emphasis(em),
             ListBlock l => new Listing(l),
             ListItemBlock li => new ListItem(li),
+            ParagraphBlock p => new Paragraph(p),
             _ => new Unrecognized(mdo),
         };
 
