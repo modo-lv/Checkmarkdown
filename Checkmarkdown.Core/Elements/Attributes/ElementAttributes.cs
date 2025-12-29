@@ -23,7 +23,7 @@ public class ElementAttributes {
 
     public ElementAttributes(HtmlAttributes attrs, Element element) {
         attrs.Id?.TakeUnless(it => it.IsWhiteSpace())?.Also(it =>
-            element.ExplicitIds.Add(it)
+            element.ExplicitId = it
         );
         this.Classes = attrs.Classes?.ToHashSet() ?? [];
         attrs.Properties?.ForEach(prop => {
