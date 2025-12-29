@@ -23,6 +23,7 @@ public static class FromMarkdown {
             ListBlock l => new Listing(l),
             ListItemBlock li => new ListItem(li),
             ParagraphBlock p => new Paragraph(p),
+            LiteralInline t => new Text(t),
             _ => new Unrecognized(mdo),
         };
 
