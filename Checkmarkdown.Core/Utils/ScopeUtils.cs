@@ -9,5 +9,10 @@ public static class ScopeUtils {
             action(receiver);
             return receiver;
         }
+
+        /// <summary>Runs <paramref name="transform"/> on the receiver and returns the result.</summary>
+        public TResult Let<TResult>(Func<TReceiver, TResult> transform) {
+            return transform(receiver); 
+        }
     }
 }
