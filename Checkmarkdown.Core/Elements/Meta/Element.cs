@@ -12,8 +12,8 @@ namespace Checkmarkdown.Core.Elements.Meta;
 /// </remarks>
 [SuppressMessage("ReSharper", "PossibleInfiniteInheritance")]
 public abstract class Element {
-    /// <summary>All project-unique identifiers for this element.</summary>
-    public HashSet<String> ExplicitIds = [];
+    /// <summary>Explicitly provided project-unique identifier for this element.</summary>
+    public String? ExplicitId;
 
     public ElementAttributes Attributes = new();
 
@@ -35,9 +35,9 @@ public abstract class Element {
     /// <param name="element">Target element.</param>
     public virtual void MoveAttributesTo(Element element) {
         element.Attributes = this.Attributes;
-        element.ExplicitIds = this.ExplicitIds;
+        element.ExplicitId = this.ExplicitId;
         this.Attributes = new ElementAttributes();
-        this.ExplicitIds = [];
+        this.ExplicitId = null;
     }
 
     /// <summary>Constructor.</summary>
