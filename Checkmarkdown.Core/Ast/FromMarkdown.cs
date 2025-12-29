@@ -2,6 +2,7 @@
 using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Markdown;
 using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 
 namespace Checkmarkdown.Core.Ast;
 
@@ -18,6 +19,7 @@ public static class FromMarkdown {
     public static Element ToCheckmarkdown(IMarkdownObject mdo) {
         Element result = mdo switch {
             MarkdownDocument _ => new Document(),
+            EmphasisInline em => new Emphasis(em),
             _ => new Unrecognized(mdo),
         };
 
