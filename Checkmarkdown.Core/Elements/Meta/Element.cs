@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Checkmarkdown.Core.Elements.Attributes;
+using Markdig.Renderers.Html;
+using Markdig.Syntax;
 
 namespace Checkmarkdown.Core.Elements.Meta;
 
@@ -8,10 +11,26 @@ namespace Checkmarkdown.Core.Elements.Meta;
 /// </remarks>
 [SuppressMessage("ReSharper", "PossibleInfiniteInheritance")]
 public abstract class Element {
+    /// <summary>All project-unique identifiers for this element.</summary>
+    public HashSet<String> ExplicitIds = [];
+
+    public ElementAttributes Attributes = new ElementAttributes();
+
     /// <summary>Sub-elements (children)</summary>
     public IList<Element> Children = [];
 
-    /// <summary>Constructor, prevents arbitrary inheritance.</summary>
+
+    /// <summary>Move <see cref="Attributes"/> from this element to another.</summary>
+    /// <param name="element">Target element.</param>
+    public virtual void MoveAttributesTo(Element element) {
+        element.Attributes = this.Attributes;
+        element.ExplicitIds = this.ExplicitIds;
+        this.Attributes = new ElementAttributes();
+        this.ExplicitIds = [];
+    }
+
+
+    /// <summary>Constructor.</summary>
     protected Element() {
         if (this is not Inline && this is not Block && this is not BlockContainer) {
             throw new NotSupportedException(
@@ -19,5 +38,10 @@ public abstract class Element {
                 $"use {nameof(Inline)}, {nameof(Block)}, or {nameof(BlockContainer)} instead."
             );
         }
+    }
+
+    /// <summary>Constructor, automatically copies attributes from the source Markdown object.</summary>
+    protected Element(IMarkdownObject mdo) : this() {
+        this.Attributes = new ElementAttributes(mdo.GetAttributes(), this);
     }
 }
