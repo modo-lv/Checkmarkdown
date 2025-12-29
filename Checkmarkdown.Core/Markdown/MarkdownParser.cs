@@ -10,6 +10,7 @@ namespace Checkmarkdown.Core.Markdown;
 public static class MarkdownParser {
     private static readonly Lazy<MarkdownPipeline> _pipeline = new Lazy<MarkdownPipeline>(() =>
         new MarkdownPipelineBuilder().Also(it => {
+            it.Extensions.AddIfNotAlready(new ShorthandLinkExtension());
             it.Extensions.AddIfNotAlready(new CustomContainerExtension());
             it.Extensions.AddIfNotAlready(new PipeTableExtension());
             it.UseGenericAttributes();
