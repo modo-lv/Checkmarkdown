@@ -18,6 +18,12 @@ public static class CollectionUtils {
             candidates.Contains(target);
     }
 
+    extension(IEnumerable<Object> list) {
+        /// <summary>Fluent variant on <see cref="String.Join{T}(String?, IEnumerable{T})"/>.</summary>
+        public String JoinToString(String separator = ", ") =>
+            String.Join(separator, list);
+    }
+
     extension<T>(IReadOnlyList<T> list) {
         /// <summary>
         /// Finds the index of the first item in the list matching <paramref name="predicate"/>.
@@ -25,7 +31,7 @@ public static class CollectionUtils {
         /// <returns>Index of item, or <c>null</c> if not found.</returns>
         public Int32? FindIndex(Predicate<T> predicate) {
             for (var i = 0; i < list.Count; i++) {
-                if (predicate(list[i])) 
+                if (predicate(list[i]))
                     return i;
             }
             return null;
