@@ -38,12 +38,15 @@ public class AstProcessorPipeline {
         Queue.ForEach(it => it.ProcessRecursively(doc));
         return doc;
     }
-    
-    
+
+
 
     /// <summary>List of processor types in the order that they should be run.</summary>
     public static readonly IReadOnlyList<Type> RunOrder = [
-        typeof(ListItemProcessor),
+        // This group moves attributes around the tree, so must not conflict with each other,
+        // and must run before any processors that expect attributes to be correctly assigned.
+        typeof(ListItemAttributeProcessor),
+        typeof(DocumentAttributeProcessor),
     ];
 
     /// <summary>
@@ -51,7 +54,8 @@ public class AstProcessorPipeline {
     /// </summary>
     public static AstProcessorPipeline CreateDefault() {
         return new AstProcessorPipeline()
-            .Add(new ListItemAttributeProcessor());
+            .Add(new ListItemAttributeProcessor())
+            .Add(new DocumentAttributeProcessor());
     }
 
 }
