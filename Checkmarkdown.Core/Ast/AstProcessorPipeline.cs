@@ -47,6 +47,8 @@ public class AstProcessorPipeline {
         // and must run before any processors that expect attributes to be correctly assigned.
         typeof(ListItemAttributeProcessor),
         typeof(DocumentAttributeProcessor),
+
+        typeof(TitleIdProcessor),
     ];
 
     /// <summary>
@@ -55,7 +57,8 @@ public class AstProcessorPipeline {
     public static AstProcessorPipeline CreateDefault() {
         return new AstProcessorPipeline()
             .Add(new ListItemAttributeProcessor())
-            .Add(new DocumentAttributeProcessor());
+            .Add(new DocumentAttributeProcessor())
+            .Add(new TitleIdProcessor());
     }
 
 }
