@@ -24,6 +24,23 @@ public static class CollectionUtils {
             String.Join(separator, list);
     }
 
+    extension<TKey, TValue>(IDictionary<TKey, TValue> dict) where TValue : class {
+        /// <summary>Returns the value with the given key, or <c>null</c> if it's not set.</summary>
+        public TValue? Get(TKey key) =>
+            dict.TryGetValue(key, out var value) ? value : null;
+    }
+
+    extension<TKey, TValue>(IDictionary<TKey, TValue> dict) where TValue : class {
+        /// <summary>
+        /// Updates the value at <paramref name="key"/>, or removes it if the new value is <c>null</c>.
+        /// </summary>
+        public void PutOrRemove(TKey key, TValue? value) {
+            if (value != null)
+                dict[key] = value;
+            else dict.Remove(key);
+        }
+    }
+
     extension<T>(IReadOnlyList<T> list) {
         /// <summary>
         /// Finds the index of the first item in the list matching <paramref name="predicate"/>.
