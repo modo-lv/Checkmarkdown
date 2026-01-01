@@ -43,12 +43,14 @@ public class AstProcessorPipeline {
 
     /// <summary>List of processor types in the order that they should be run.</summary>
     public static readonly IReadOnlyList<Type> RunOrder = [
-        // This group moves attributes around the tree, so must not conflict with each other,
+        // Attribute processors move attributes around the tree, so must not conflict with each other,
         // and must run before any processors that expect attributes to be correctly assigned.
         typeof(ListItemAttributeProcessor),
         typeof(DocumentAttributeProcessor),
 
         typeof(TitleIdProcessor),
+        // ID index must run after anything that might modify IDs.
+        typeof(IdDocumentIndexProcessor),
     ];
 
     /// <summary>
@@ -58,7 +60,8 @@ public class AstProcessorPipeline {
         return new AstProcessorPipeline()
             .Add(new ListItemAttributeProcessor())
             .Add(new DocumentAttributeProcessor())
-            .Add(new TitleIdProcessor());
+            .Add(new TitleIdProcessor())
+            .Add(new IdDocumentIndexProcessor());
     }
 
 }

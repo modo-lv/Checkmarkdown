@@ -4,4 +4,7 @@
 public class ProjectBuildContext {
     /// <summary>Arbitrary data storage for each AST processor.</summary>
     public readonly Dictionary<Type, Object> AstProcessorStorage = [];
+
+    /// <inheritdoc cref="IdDocumentIndex"/>
+    public readonly IdDocumentIndex IdIndex = [];
 }

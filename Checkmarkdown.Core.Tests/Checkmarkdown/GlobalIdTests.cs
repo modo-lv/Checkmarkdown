@@ -1,14 +1,17 @@
-﻿using Checkmarkdown.Core.Ast;
+﻿using System;
+using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Tests.Utils;
+using Checkmarkdown.Core.Tests.Wiring;
+using Checkmarkdown.Core.Wiring.Errors;
 using FluentAssertions;
 using Xunit;
 // ReSharper disable ArrangeTypeMemberModifiers
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class TitleIdTests {
+public class GlobalIdTests : IClassFixture<TestBuildContext> {
 
     [Fact] void Basic() {
         const String input = "a {#:id}";
@@ -32,4 +35,15 @@ public class TitleIdTests {
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>().ExplicitId.Should().Be("xx");
     }
+
+    // TODO: Add a test that tests this across multiple documents
+    [Fact] void ThrowOnDuplicate() {
+        const String input = @"Text {#id}
+
+More text {#id}";
+        FluentActions.Invoking(() =>
+            AstProcessorPipeline.CreateDefault().Run(input)
+        ).Should().Throw<DuplicateIdException>();
+    }
+
 }
