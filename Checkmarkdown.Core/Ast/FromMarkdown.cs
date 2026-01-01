@@ -20,6 +20,7 @@ public static class FromMarkdown {
         Element result = mdo switch {
             MarkdownDocument _ => new Document(),
             EmphasisInline em => new Emphasis(em),
+            HeadingBlock h => new Heading(h),
             LineBreakInline _ => new LineBreak(),
             ListBlock l => new Listing(l),
             ListItemBlock li => new ListItem(li),
