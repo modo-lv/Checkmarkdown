@@ -51,6 +51,7 @@ public class AstProcessorPipeline {
         typeof(TitleIdProcessor),
         // ID index must run after anything that might modify IDs.
         typeof(IdDocumentIndexProcessor),
+        typeof(HeadingItemProcessor),
     ];
 
     /// <summary>
@@ -61,7 +62,8 @@ public class AstProcessorPipeline {
             .Add(new ListItemAttributeProcessor())
             .Add(new DocumentAttributeProcessor())
             .Add(new TitleIdProcessor())
-            .Add(new IdDocumentIndexProcessor());
+            .Add(new IdDocumentIndexProcessor())
+            .Add(new HeadingItemProcessor());
     }
 
 }
