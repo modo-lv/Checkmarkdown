@@ -51,7 +51,10 @@ public class AstProcessorPipeline {
         typeof(TitleIdProcessor),
         // ID index must run after anything that might modify IDs.
         typeof(IdDocumentIndexProcessor),
+        
+        // Heading-item processing is a prerequisite for correct implicit ID generation.
         typeof(HeadingItemProcessor),
+        typeof(ImplicitIdProcessor),
     ];
 
     /// <summary>
@@ -63,7 +66,8 @@ public class AstProcessorPipeline {
             .Add(new DocumentAttributeProcessor())
             .Add(new TitleIdProcessor())
             .Add(new IdDocumentIndexProcessor())
-            .Add(new HeadingItemProcessor());
+            .Add(new HeadingItemProcessor())
+            .Add(new ImplicitIdProcessor());
     }
 
 }

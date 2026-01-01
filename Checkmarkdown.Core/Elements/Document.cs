@@ -12,7 +12,8 @@ public class Document : BlockContainer {
     } = "";
 
     /// <summary>A unique document identifier, based on the filename.</summary>
-    public String ProjectFileId => this.ProjectFilePath.TrimPrefix("pages/").TrimSuffix(".md");
+    public String? ProjectFileId => 
+        this.ProjectFilePath.TakeUnless(it => it.IsWhiteSpace())?.TrimPrefix("pages/").TrimSuffix(".md");
 
     /// <summary>How deep in the project file tree this document is.</summary>
     public Int32 Depth => this.ProjectFilePath.Count(it => it == '/');

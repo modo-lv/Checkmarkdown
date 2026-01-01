@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements.Attributes;
 using Checkmarkdown.Core.Utils;
 using Markdig.Renderers.Html;
@@ -13,7 +14,26 @@ namespace Checkmarkdown.Core.Elements.Meta;
 [SuppressMessage("ReSharper", "PossibleInfiniteInheritance")]
 public abstract class Element {
     /// <summary>Explicitly provided project-unique identifier for this element.</summary>
-    public String? ExplicitId;
+    public String? ExplicitId {
+        get;
+        set => field = value?.TakeUnless(it => it.IsWhiteSpace());
+    }
+
+    /// <summary>
+    /// ID calculated from the item's (including its parents') <see cref="TitleText"/> and location in the
+    /// document. 
+    /// </summary>
+    /// <seealso cref="ImplicitIdProcessor"/>
+    public String? ImplicitId {
+        get;
+        set => field = value?.TakeUnless(it => it.IsWhiteSpace());
+    }
+
+    /// <summary>Element's project-unique identifier, either implicit or explicit.</summary>
+    public String GlobalId => this.ExplicitId ?? this.ImplicitId ?? throw new InvalidOperationException(
+        $"[{GetType().Name}] has neither explicit or implicit ID, can't be globally identified."
+    );
+
 
     public ElementAttributes Attributes = new();
 
