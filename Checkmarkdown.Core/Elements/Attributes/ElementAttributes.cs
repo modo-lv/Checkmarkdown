@@ -30,7 +30,7 @@ public class ElementAttributes {
             // Shorthand syntax 
             if (prop.Key.StartsWith(':'))
                 this.Properties[prop.Key[1..]] =
-                    prop.Value.TakeUnless(it => it.IsWhiteSpace()) ?? "true";
+                    prop.Value?.TakeUnless(it => it.IsWhiteSpace()) ?? "true";
             else
                 this.Properties.Add(prop!);
         });
