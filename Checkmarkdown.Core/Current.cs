@@ -1,11 +1,21 @@
 ﻿using System.IO.Abstractions;
 using Checkmarkdown.Core.Project;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using Testably.Abstractions;
 
 namespace Checkmarkdown.Core;
 
 public static class Current
 {
+    public static void EnableLogging() {
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console(
+                theme: AnsiConsoleTheme.Code
+            )
+            .CreateLogger();
+    }
+
     /// <summary>Global access to the current file system.</summary>
     /// <remarks>All logic should use this to work with files, to facilitate testing.</remarks>
     public static IFileSystem FileSystem {

@@ -1,12 +1,15 @@
-﻿using Checkmarkdown.Core.Utils;
+﻿using Checkmarkdown.Core;
+using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Web.Project;
 using CommandLine;
+using Serilog;
 using Path = Fluent.IO.Path;
 
 Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
-    Console.WriteLine($"Path: {opts.ProjectPath}");
-    new WebProject(new Path(opts.ProjectPath)).Also(it => {
-        it.Load();
+    Current.EnableLogging();
+    Log.Information("Path: {ProjectPath}", opts.ProjectPath);
+    new WebProject(new Path(opts.ProjectPath)).Also(project => {
+        project.Load();
     });
 });
 

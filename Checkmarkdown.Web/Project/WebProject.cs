@@ -2,6 +2,7 @@
 using Checkmarkdown.Core.Project;
 using Checkmarkdown.Web.Project.Config;
 using Newtonsoft.Json;
+using Serilog;
 using Path = Fluent.IO.Path;
 
 namespace Checkmarkdown.Web.Project;
@@ -18,7 +19,8 @@ public class WebProject(Path rootPath) : ProjectBase(rootPath)
 
             var json = JsonConvert.SerializeObject(defaultConfig, Formatting.Indented);
             Current.FileSystem.File.WriteAllText(path: configFile.FullPathString(), contents: json);
-            Console.WriteLine($"Wrote {json} to {configFile.FullPathString()}");
+
+            Log.Information("Wrote {Json} to {FullPathString}", json, configFile.FullPathString());
         }
 
     }
