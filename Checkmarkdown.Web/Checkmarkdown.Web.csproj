@@ -18,4 +18,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Checkmarkdown.Core\Checkmarkdown.Core.csproj" />
+    </ItemGroup>
+
 </Project>
