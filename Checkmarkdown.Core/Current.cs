@@ -1,8 +1,18 @@
-﻿using Checkmarkdown.Core.Project;
+﻿using System.IO.Abstractions;
+using Checkmarkdown.Core.Project;
+using Testably.Abstractions;
 
 namespace Checkmarkdown.Core;
 
-public static class Current {
+public static class Current
+{
+    /// <summary>Global access to the current file system.</summary>
+    /// <remarks>All logic should use this to work with files, to facilitate testing.</remarks>
+    public static IFileSystem FileSystem {
+        get => field ?? new RealFileSystem();
+        set;
+    }
+
     /// <summary>Global build context used when running a project build.</summary>
     /// <remarks>
     /// Having this as a static global simplifies code, including testing, but is only safe as long as builds
