@@ -1,17 +1,11 @@
-﻿// Load template from file
+﻿using CommandLine;
 
-using HandlebarsDotNet;
-var templatePath = Path.Combine("Resources", "html", "index.hbs");
-var templateContent = File.ReadAllText(templatePath);
+Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
+    Console.WriteLine($"Path: {opts.ProjectPath}");
+});
 
-// Compile template
-var template = Handlebars.Compile(templateContent);
-
-// Data model
-var data = new {
-    person = new { name = "Alice" },
-};
-
-// Render
-var result = template(data);
-Console.WriteLine(result);
+public class Options
+{
+    [Value(index: 0, HelpText = "Path to the project directory.", Default = ".")]
+    public String ProjectPath { get; set; } = ".";
+}
