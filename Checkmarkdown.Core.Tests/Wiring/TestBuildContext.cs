@@ -6,7 +6,7 @@ namespace Checkmarkdown.Core.Tests.Wiring;
 public class TestBuildContext : IDisposable {
     
     public TestBuildContext() {
-        Current.BuildContext = new();
+        Build.Context = new();
     }
     
     public void Dispose() { }

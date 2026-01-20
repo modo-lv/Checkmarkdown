@@ -18,7 +18,7 @@ public class WebProject(Path rootPath) : ProjectBase(rootPath)
             );
 
             var json = JsonConvert.SerializeObject(defaultConfig, Formatting.Indented);
-            Current.FileSystem.File.WriteAllText(path: configFile.FullPathString(), contents: json);
+            App.FileSystem.File.WriteAllText(path: configFile.FullPathString(), contents: json);
 
             Log.Information("Wrote {Json} to {FullPathString}", json, configFile.FullPathString());
         }

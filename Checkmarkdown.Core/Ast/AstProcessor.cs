@@ -6,7 +6,7 @@ namespace Checkmarkdown.Core.Ast;
 
 /// <summary>Base class for components that modify a Checkmarkdown AST in some way.</summary>
 public abstract class AstProcessor {
-    protected ProjectBuildContext BuildContext => Current.BuildContext;
+    protected ProjectBuildContext BuildContext => Build.Context;
     
     /// <summary>Direct access to this processor's storage.</summary>
     public Object? Storage {
