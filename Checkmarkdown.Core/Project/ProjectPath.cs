@@ -1,4 +1,5 @@
-﻿using Path = Fluent.IO.Path;
+﻿using Checkmarkdown.Core.Utils;
+using Path = Fluent.IO.Path;
 
 namespace Checkmarkdown.Core.Project;
 
@@ -16,10 +17,8 @@ public class ProjectPath {
     /// <summary>Does this path exist in the filesystem?</summary>
     public Boolean Exists => Full.Exists;
 
-    public String RelPathString {
-        get => field;
-        private init => field = Relative.ToString().Replace('\\', '/');
-    }
+    public String RelPathString => 
+        field ?? Relative.ToString().Replace('\\', '/').Also(it => field = it);
 
     public ProjectPath(Path root, Path relativeFilePath) {
         Root = root;
