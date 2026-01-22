@@ -25,10 +25,10 @@ public class WebProject(String rootPath) : ProjectBase(rootPath)
             );
 
             var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
-            App.FileSystem.File.WriteAllText(path: configFile.FullPathString(), contents: json);
+            Build.FileSystem.File.WriteAllText(path: configFile.FullPathString(), contents: json);
             Log.Debug("Wrote {Json} to {FullPathString}", json, configFile.FullPathString());
         } else {
-            var json = App.FileSystem.File.ReadAllText(path: configFile.FullPathString());
+            var json = Build.FileSystem.File.ReadAllText(path: configFile.FullPathString());
             Config = JsonConvert.DeserializeObject<WebConfig>(json)
                      ?? throw new InvalidDataException("Config file exists, but contains no config data.");
         }
