@@ -5,7 +5,7 @@ using Serilog;
 
 Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     LogUtils.EnableLogging();
-    Log.Information("Path: {ProjectPath}", opts.ProjectPath);
+    Log.Information("Loading and building Checkmarkdown Web project...");
     new WebProject(opts.ProjectPath).Also(project => {
         project.Load();
     });
