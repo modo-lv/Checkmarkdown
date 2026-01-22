@@ -3,9 +3,9 @@
 namespace Checkmarkdown.Core.Project;
 
 /// <summary>Base class for Checkmarkdown projects.</summary>
-public abstract class ProjectBase(Path rootPath)
+public abstract class ProjectBase(String rootPath)
 {
-    public Path RootPath = rootPath;
+    public readonly Path RootPath = new(rootPath);
 
     public ProjectPath PathTo(String file) =>
         this.PathTo(new Path(file));

@@ -1,13 +1,11 @@
-﻿using Checkmarkdown.Core;
-using Checkmarkdown.Core.Project;
+﻿using Checkmarkdown.Core.Project;
 using Checkmarkdown.Web.Project.Config;
 using Newtonsoft.Json;
 using Serilog;
-using Path = Fluent.IO.Path;
 
 namespace Checkmarkdown.Web.Project;
 
-public class WebProject(Path rootPath) : ProjectBase(rootPath)
+public class WebProject(String rootPath) : ProjectBase(rootPath)
 {
     public void Load() {
         var configFile = this.PathTo("checkmarkdown-web-config.json");
