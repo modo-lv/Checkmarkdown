@@ -1,4 +1,5 @@
-﻿using Checkmarkdown.Core.Project;
+﻿using Checkmarkdown.Core;
+using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Web.Project.Config;
 using Newtonsoft.Json;
@@ -25,14 +26,14 @@ public class WebProject(String rootPath) : ProjectBase(rootPath)
             );
 
             var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
-            Build.FileSystem.File.WriteAllText(path: configFile.FullPathString(), contents: json);
-            Log.Debug("Wrote {Json} to {FullPathString}", json, configFile.FullPathString());
+            Build.FileSystem.File.WriteAllText(path: $"{configFile.Full}", contents: json);
+            Log.Debug("Wrote {Json} to {FullPathString}", json, $"{configFile.Full}");
         } else {
-            var json = Build.FileSystem.File.ReadAllText(path: configFile.FullPathString());
+            var json = Build.FileSystem.File.ReadAllText(path: $"{configFile.Full}");
             Config = JsonConvert.DeserializeObject<WebConfig>(json)
                      ?? throw new InvalidDataException("Config file exists, but contains no config data.");
         }
 
-        Log.Information("Project loaded, ID: {id}", Config.ProjectId);
+        Log.Information("Web project loaded, ID: {id}", Config.ProjectId);
     }
 }

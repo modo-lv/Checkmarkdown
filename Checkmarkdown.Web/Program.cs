@@ -8,6 +8,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     Log.Information("Loading and building Checkmarkdown Web project...");
     new WebProject(opts.ProjectPath).Also(project => {
         project.Load();
+        project.BuildPages(project.FindPageSources());
     });
 });
 

@@ -1,18 +1,21 @@
 ﻿using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Markdown;
+using Checkmarkdown.Core.Project;
+using Checkmarkdown.Core.Utils;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
 namespace Checkmarkdown.Core.Ast;
 
 /// <summary>Handles conversion from Markdown to Checkmarkdown elements.</summary>
-public static class FromMarkdown {
+public static class FromMarkdown
+{
 
     /// <summary>Parse a Markdown string into a Checkmarkdown AST.</summary>
-    public static Document ToCheckmarkdown(String markdown) {
+    public static Document ToCheckmarkdown(String markdown, ProjectPath? file = null) {
         var document = MarkdownParser.ParseToAst(markdown);
-        return (Document) ToCheckmarkdown(document);
+        return ToCheckmarkdown(document).As<Document>().Also(doc => doc.SetSourceFile(file));
     }
 
     /// <summary>Convert a Markdown element to a Checkmarkdown one.</summary>

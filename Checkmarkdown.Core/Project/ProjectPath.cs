@@ -4,7 +4,8 @@ using Path = Fluent.IO.Path;
 namespace Checkmarkdown.Core.Project;
 
 /// <summary>Provides convenient reference to a project file path.</summary>
-public class ProjectPath {
+public class ProjectPath
+{
     /// <summary>Project root path.</summary>
     public readonly Path Root;
 
@@ -17,19 +18,15 @@ public class ProjectPath {
     /// <summary>Does this path exist in the filesystem?</summary>
     public Boolean Exists => Full.Exists;
 
-    public String RelPathString => 
-        field ?? Relative.ToString().Replace('\\', '/').Also(it => field = it);
+    public String FullPath => Full.FullPath;
 
     public ProjectPath(Path root, Path relativeFilePath) {
         Root = root;
         Relative = relativeFilePath.IsRooted ? relativeFilePath.MakeRelativeTo(root) : relativeFilePath;
         Full = this.Root.Combine(this.Relative);
     }
-
-
-
-    public override String ToString() => RelPathString;
-    public String FullPathString() => Full.FullPath.Replace('\\', '/');
+    
+    public override String ToString() => Relative.ToString();
 
     public IEnumerable<ProjectPath> Files(String filter, Boolean recursive) =>
         Full.Files(filter, recursive).Select(it => new ProjectPath(Root, it));
