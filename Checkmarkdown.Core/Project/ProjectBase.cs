@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Elements;
+using Checkmarkdown.Core.Utils;
 using MoreLinq;
 using Serilog;
 using Path = Fluent.IO.Path;
@@ -20,23 +21,30 @@ public abstract class ProjectBase
     }
 
     /// <summary>Find all Markdown files to compile into Checkmarkdown AST documents.</summary>
-    public IEnumerable<ProjectPath> FindPageSources() {
+    public IList<ProjectPath> FindPages() {
         var pagePath = PathTo("pages");
+        if (!pagePath.Exists)
+            AppUtils.FatalExit("Missing project page source: {pages}", pagePath.DirPath);
         const String filter = "*.md";
-        Log.Debug("Finding {filter} files in {path}", filter, pagePath.FullPath);
-        return pagePath.Files(filter, recursive: true);
+        var files = pagePath.Files(filter, recursive: true).ToList();
+        if (files.Count == 0)
+            AppUtils.FatalExit("There are no {filter} files in: {pages}.", filter, pagePath);
+        Log.Information(
+            "Found {count} {filter} file(s) in: {path}", files.Count, filter, pagePath
+        );
+        return files;
     }
 
     /// <summary>
     /// Builds a list of markdown sources into processed documents, and saves them to <see cref="Pages"/>.
     /// </summary>
-    /// <param name="sources">An enumeration of files (paths) containing the markdown to process.</param>
+    /// <param name="pages">An enumeration of files (paths) containing the markdown to process.</param>
     /// <returns><see cref="Pages"/></returns>
-    public List<Document> BuildPages(IEnumerable<ProjectPath> sources) {
-        sources.Select(it => $"{it.Full}").ForEach(source => {
-            Log.Debug("Building checkmarkdown document: {file}", source);
+    public IList<Document> BuildPages(IList<ProjectPath> pages) {
+        pages.ForEach(page => {
+            Log.Information("Building Checkmarkdown document: {file}", page);
             FromMarkdown.ToCheckmarkdown(
-                Build.FileSystem.File.ReadAllText(source)
+                Build.FileSystem.File.ReadAllText(page.FullPath)
             );
         });
 
