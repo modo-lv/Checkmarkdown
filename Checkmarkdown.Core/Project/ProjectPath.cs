@@ -16,17 +16,24 @@ public class ProjectPath
     public readonly Path Full;
 
     /// <summary>Does this path exist in the filesystem?</summary>
-    public Boolean Exists => Full.Exists;
+    public readonly Boolean Exists;
 
-    public String FullPath => Full.FullPath;
+    public readonly String FullPath;
+
+    /// <summary><see cref="Relative"/> path with an added trailing directory separator.</summary>
+    public readonly String DirPath;
 
     public ProjectPath(Path root, Path relativeFilePath) {
         Root = root;
         Relative = relativeFilePath.IsRooted ? relativeFilePath.MakeRelativeTo(root) : relativeFilePath;
         Full = this.Root.Combine(this.Relative);
+        Exists = Full.Exists;
+        FullPath = Full.ToString();
+        DirPath = $"{Relative}{System.IO.Path.DirectorySeparatorChar}";
     }
-    
-    public override String ToString() => Relative.ToString();
+
+    public override String ToString() =>
+        Full.IsDirectory ? DirPath : $"{Relative}";
 
     public IEnumerable<ProjectPath> Files(String filter, Boolean recursive) =>
         Full.Files(filter, recursive).Select(it => new ProjectPath(Root, it));
