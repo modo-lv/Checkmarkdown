@@ -1,15 +1,18 @@
-﻿using HandlebarsDotNet;
+﻿using Checkmarkdown.Core.Elements;
+using Checkmarkdown.Web.Project;
+using RazorLight;
 
 namespace Checkmarkdown.Web;
 
 public class HtmlBuilder {
-    public String Build() {
-        var templatePath = Path.Combine("Resources", "html", "index.hbs");
+    public String Build(Document document) {
+        var templatePath = Path.Combine("Resources", "cshtml", "page.cshtml");
         var templateContent = File.ReadAllText(templatePath);
-        var template = Handlebars.Compile(templateContent);
-        var data = new {
-            person = new { name = "Alice" },
-        };
-        return template(data);
+        var engine = new RazorLightEngineBuilder()
+            .UseEmbeddedResourcesProject(typeof(WebProject))
+            .UseMemoryCachingProvider()
+            .Build();
+        var result = engine.CompileRenderStringAsync("key", templateContent, document).Result!;
+        return result;
     }
 }

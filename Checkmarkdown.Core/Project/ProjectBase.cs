@@ -13,7 +13,7 @@ public abstract class ProjectBase
     public readonly Path RootPath;
 
     /// <summary>Project's Checkmarkdown documents, processed into ASTs ready for output.</summary>
-    public List<Document> Pages = [];
+    public readonly List<Document> Documents = [];
 
     protected ProjectBase(String rootPath) {
         this.RootPath = new(rootPath);
@@ -36,19 +36,19 @@ public abstract class ProjectBase
     }
 
     /// <summary>
-    /// Builds a list of markdown sources into processed documents, and saves them to <see cref="Pages"/>.
+    /// Builds a list of markdown sources into processed documents, and saves them to <see cref="Documents"/>.
     /// </summary>
     /// <param name="pages">An enumeration of files (paths) containing the markdown to process.</param>
-    /// <returns><see cref="Pages"/></returns>
-    public IList<Document> BuildPages(IList<ProjectPath> pages) {
+    /// <returns><see cref="Documents"/></returns>
+    public IList<Document> BuildDocuments(IList<ProjectPath> pages) {
         pages.ForEach(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
             FromMarkdown.ToCheckmarkdown(
                 Build.FileSystem.File.ReadAllText(page.FullPath)
-            );
+            ).Also(Documents.Add);
         });
 
-        return Pages;
+        return Documents;
     }
 
     public ProjectPath PathTo(String file) =>
