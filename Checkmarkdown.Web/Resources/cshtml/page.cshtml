@@ -1,5 +1,7 @@
 <html>
 <body>
-<h1>Hello @Model</h1>
+@foreach (var element in Model.Children) {
+    <div>@element.GetType().Name</div>
+}
 </body>
 </html>

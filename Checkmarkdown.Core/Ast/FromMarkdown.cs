@@ -15,7 +15,7 @@ public static class FromMarkdown
     /// <summary>Parse a Markdown string into a Checkmarkdown AST.</summary>
     public static Document ToCheckmarkdown(String markdown, ProjectPath? file = null) {
         var document = MarkdownParser.ParseToAst(markdown);
-        return ToCheckmarkdown(document).As<Document>().Also(doc => doc.SetSourceFile(file));
+        return ToCheckmarkdown(document).As<Document>().Also(doc => doc.SourceFile = file);
     }
 
     /// <summary>Convert a Markdown element to a Checkmarkdown one.</summary>

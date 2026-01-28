@@ -44,15 +44,25 @@ public abstract class ProjectBase
         pages.ForEach(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
             FromMarkdown.ToCheckmarkdown(
-                Build.FileSystem.File.ReadAllText(page.FullPath)
+                markdown: Build.FileSystem.File.ReadAllText(page.FullPath),
+                file: page
             ).Also(Documents.Add);
         });
 
         return Documents;
     }
 
-    public ProjectPath PathTo(String file) =>
-        this.PathTo(new Path(file));
+    /// <summary>Creates a <see cref="ProjectPath"/> object for a project file/dir.</summary>
+    /// <param name="pathParts">
+    /// The path to the file/dir, relative to project root. Either as a single string,
+    /// or a list of path parts to be combined.
+    /// </param>
+    public ProjectPath PathTo(params IList<String> pathParts) =>
+        this.PathTo(
+            pathParts
+                .Skip(1) // We're manually creating the initial path for the aggregate seed
+                .Aggregate(seed: new Path(pathParts[0]), (path, nextPart) => path.Combine(nextPart))
+        );
 
     public ProjectPath PathTo(Path file) =>
         new ProjectPath(this.RootPath, file);
