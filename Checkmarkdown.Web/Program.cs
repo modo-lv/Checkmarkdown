@@ -17,7 +17,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
             var outFile = project.PathTo("out-web", htmlFile);
             outFile.Full.Parent().CreateDirectory();
             Log.Information("Building web output: {outFile}", outFile);
-            var html = HtmlBuilder.Build(doc);
+            var html = RazorHtmlBuilder.Build(doc);
             Build.FileSystem.File.WriteAllText(outFile.FullPath, html);
         });
     });

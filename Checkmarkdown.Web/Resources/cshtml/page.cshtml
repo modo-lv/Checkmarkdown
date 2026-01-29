@@ -1,7 +1,15 @@
+@inherits RazorLight.TemplatePage<Document>;
+@using Checkmarkdown.Core.Elements;
+@model Document;
+
 <html>
 <body>
-@foreach (var element in Model.Children) {
-    <div>@element.GetType().Name</div>
+@{
+    foreach (var element in Model.Children) {
+        if (element is Item) {
+            await IncludeAsync("elements/item.cshtml", element);
+        }
+    }
 }
 </body>
 </html>
