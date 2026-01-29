@@ -19,10 +19,12 @@ public class HeadingItemTests {
         const String input =
             """
             # Top
+            
             ## Mid
+            
             ### Bot
             """;
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<Item>().Also(it => {
                 it.IsHeading.Should().BeTrue();
@@ -40,7 +42,7 @@ public class HeadingItemTests {
     
     [Fact] void ListHeadingsAreSkipped() {
         const String input = "+ # Heading";
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .Children[0].Should().NotBeOfType<Item>();

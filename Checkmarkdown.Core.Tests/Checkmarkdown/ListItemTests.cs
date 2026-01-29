@@ -7,10 +7,13 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class ListItemTests {
+public class ListItemTests
+{
     [Fact] void FirstChildAttributesMoveToItem() {
         const String input = "* Item {:attr}";
-        var doc = new AstProcessorPipeline().Add(new ListItemAttributeProcessor()).Run(input);
+        var doc = new AstProcessorPipeline()
+            .Add(new ListItemAttributeProcessor())
+            .RunFromMarkdown(input);
         doc.FirstDescendant<ListItem>().Attributes.Flag("attr").Should().BeTrue();
     }
 }

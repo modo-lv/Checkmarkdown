@@ -33,14 +33,12 @@ public class AstProcessorPipeline {
         return this;
     }
 
-    public Document Run(String input) {
-        var doc = FromMarkdown.ToCheckmarkdown(input);
+    public Document Run(Document doc) {
         Queue.ForEach(it => it.ProcessRecursively(doc));
         return doc;
     }
 
-
-
+    
     /// <summary>List of processor types in the order that they should be run.</summary>
     public static readonly IReadOnlyList<Type> RunOrder = [
         // Attribute processors move attributes around the tree, so must not conflict with each other,

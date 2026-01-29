@@ -20,7 +20,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
               + One
               + Other
             """;
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>()
@@ -30,7 +30,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
     [Fact]
     void TrimSpaces() {
         const String input = "* Heading {something}";
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result.FirstDescendant<ListItem>().ImplicitId.Should().Be("Heading");
     }
 
@@ -43,7 +43,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
                 * Sub
             """;
 
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>()
@@ -60,7 +60,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * [Carbuncle]()
             """;
 
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<Item>()
             .FirstDescendant<Item>()
@@ -83,7 +83,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * [Killer Bee]
             """;
 
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>().ImplicitId.Should().Be(
                 $"The{ImplicitIdProcessor.WordSep}Floating{ImplicitIdProcessor.WordSep}Continent" +
@@ -101,7 +101,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * Item
             * Item
             """;
-        _pipeline.Run(input)
+        _pipeline.RunFromMarkdown(input)
             .FirstDescendant<Listing>()
             .Children[2] // 3rd item
             .GlobalId.Should()
@@ -118,7 +118,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * Item one
               * Item two
             """;
-        var doc = _pipeline.Run(input);
+        var doc = _pipeline.RunFromMarkdown(input);
         doc
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>().GlobalId.Should().Be(

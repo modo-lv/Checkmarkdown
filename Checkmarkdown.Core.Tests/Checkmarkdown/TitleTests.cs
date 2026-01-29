@@ -8,13 +8,14 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class TitleTests {
+public class TitleTests
+{
 
     private static AstProcessorPipeline _pipeline = new();
 
     [Fact] void HeadingWithLinkTitle() {
         const String input = "# Heading with [link](link)";
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result.FirstDescendant<Heading>().TitleText.Should().Be("Heading with link");
     }
 
@@ -26,7 +27,7 @@ public class TitleTests {
 
               Another paragraph
             """;
-        var result = _pipeline.Run(input);
+        var result = _pipeline.RunFromMarkdown(input);
         result.Children[0].TitleText.Should().Be("Wicked");
     }
 

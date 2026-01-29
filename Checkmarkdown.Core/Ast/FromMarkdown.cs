@@ -13,7 +13,7 @@ public static class FromMarkdown
 {
 
     /// <summary>Parse a Markdown string into a Checkmarkdown AST.</summary>
-    public static Document ToCheckmarkdown(String markdown, ProjectPath? file = null) {
+    public static Document ToCheckmarkdown(String markdown, ProjectPath? file) {
         var document = MarkdownParser.ParseToAst(markdown);
         return ToCheckmarkdown(document).As<Document>().Also(doc => doc.SourceFile = file);
     }

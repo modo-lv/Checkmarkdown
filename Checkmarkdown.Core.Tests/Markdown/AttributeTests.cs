@@ -6,12 +6,13 @@ using Xunit;
 
 // ReSharper disable ArrangeTypeMemberModifiers
 
-namespace Checkmarkdown.Core.Tests.Markdown; 
+namespace Checkmarkdown.Core.Tests.Markdown;
 
-public class AttributesTests {
-  [Fact] void BasicCase() {
-    const String input = "*xxx* {:setting}";
-    var result = FromMarkdown.ToCheckmarkdown(input);
-    result.FirstDescendant<Paragraph>().Attributes.Flag("setting").Should().BeTrue();
-  }
+public class AttributesTests
+{
+    [Fact] void BasicCase() {
+        const String input = "*xxx* {:setting}";
+        var result = FromMarkdown.ToCheckmarkdown(input, file: null);
+        result.FirstDescendant<Paragraph>().Attributes.Flag("setting").Should().BeTrue();
+    }
 }
