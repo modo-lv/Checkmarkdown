@@ -5,9 +5,7 @@ namespace Checkmarkdown.Core.Tests.Wiring;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class TestBuildContext : IDisposable {
     
-    public TestBuildContext() {
-        Build.Context = new();
-    }
+    public TestBuildContext() { }
     
     public void Dispose() { }
     

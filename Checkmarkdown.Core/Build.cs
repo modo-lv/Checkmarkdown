@@ -20,8 +20,7 @@ public static class Build
     /// ever implemented, this will have to become an instance parameter.
     /// </remarks>
     public static ProjectBuildContext Context {
-        get => field ?? throw new NullReferenceException("Build context not set!");
-        set;
-    } = null;
+        get => field;
+    } = new();
 
 }

@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Elements;
+using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Utils;
 using MoreLinq;
 using Serilog;
@@ -41,12 +42,13 @@ public abstract class ProjectBase
     /// <param name="pages">An enumeration of files (paths) containing the markdown to process.</param>
     /// <returns><see cref="Documents"/></returns>
     public IList<Document> BuildDocuments(IList<ProjectPath> pages) {
+        var ast = AstProcessorPipeline.CreateDefault();
         pages.ForEach(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
-            FromMarkdown.ToCheckmarkdown(
-                markdown: Build.FileSystem.File.ReadAllText(page.FullPath),
-                file: page
-            ).Also(Documents.Add);
+            FromMarkdown
+                .ToCheckmarkdown(markdown: Build.FileSystem.File.ReadAllText(page.FullPath), file: page)
+                .Let(ast.Run)
+                .Also(Documents.Add);
         });
 
         return Documents;
