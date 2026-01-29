@@ -1,2 +1,10 @@
+@using Checkmarkdown.Core.Elements;
+
+@inherits RazorLight.TemplatePage<Item>;
+@model Item;
+
 <article>
+<header>
+@{ await IncludeAsync("element.cshtml", Model?.Title); }
+</header>
 </article>

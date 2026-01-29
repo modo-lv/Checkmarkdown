@@ -6,9 +6,7 @@
 <body>
 @{
     foreach (var element in Model.Children) {
-        if (element is Item) {
-            await IncludeAsync("elements/item.cshtml", element);
-        }
+        await IncludeAsync("element.cshtml", element);
     }
 }
 </body>
