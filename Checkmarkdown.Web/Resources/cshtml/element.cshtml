@@ -2,16 +2,14 @@
 @using Checkmarkdown.Core.Elements.Meta;
 @inherits RazorLight.TemplatePage<Element>;
 @model Element;
-@{
-    switch (Model) {
-        case Heading:
-            await IncludeAsync("elements/heading.cshtml", Model);
-            break;
-        case Item:
-            await IncludeAsync("elements/item.cshtml", Model);
-            break;
-        default:
-            <span>Unrecognized</span>
-            break;
-    }
+@switch (Model) {
+    case Heading:
+        await IncludeAsync("elements/heading.cshtml", Model);
+        break;
+    case Item:
+        await IncludeAsync("elements/item.cshtml", Model);
+        break;
+    default:
+        <span>Unrecognized</span>
+        break;
 }

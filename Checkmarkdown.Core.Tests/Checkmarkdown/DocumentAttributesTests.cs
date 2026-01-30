@@ -15,6 +15,7 @@ public class DocumentAttributesTests
         const String input = ":{#id .class property :setting}";
         var result = new AstProcessorPipeline().Add(new DocumentAttributeProcessor()).RunFromMarkdown(input);
         var doc = result.As<Document>();
+        doc.TitleText.Should().BeEmpty();
         doc.Children.Should().BeEmpty();
         doc.ExplicitId.Should().Be("id");
         doc.Attributes.Classes.Should().Contain("class");
