@@ -1,7 +1,6 @@
 ﻿using Checkmarkdown.Core;
 using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
-using Checkmarkdown.Web.Project.Config;
 using Newtonsoft.Json;
 using Serilog;
 
