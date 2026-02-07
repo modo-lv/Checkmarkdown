@@ -2,4 +2,7 @@
 @using Checkmarkdown.Web
 @inherits RazorLight.TemplatePage<Heading>;
 @model Heading;
-<h1 @Model.HtmlAttributes()>@Model.TitleText</h1>
+
+@{ var tagName = $"h{Model.Level}"; }
+
+<@tagName @Model.HtmlAttributes()>@Model.TitleText</@tagName>

@@ -4,8 +4,6 @@
 
 <html>
 <body>
-@foreach (var element in Model.Children) {
-    await IncludeAsync("element.cshtml", element);
-}
+@{ await IncludeAsync("elements.cshtml", Model.Children); }
 </body>
 </html>

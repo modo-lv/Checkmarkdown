@@ -19,9 +19,7 @@ public class HeadingItemTests {
         const String input =
             """
             # Top
-            
             ## Mid
-            
             ### Bot
             """;
         var result = _pipeline.RunFromMarkdown(input);

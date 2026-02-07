@@ -10,6 +10,6 @@
         await IncludeAsync("elements/item.cshtml", Model);
         break;
     default:
-        <span>Unrecognized</span>
+        <span>Unrecognized element type: < @Model.GetType().Name ></span>
         break;
 }
