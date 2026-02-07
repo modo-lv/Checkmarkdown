@@ -23,6 +23,18 @@
       <None Update="Resources\cshtml\**\*.cshtml" CopyToOutputDirectory="Always">
         <Generator>RazorTemplatePreprocessor</Generator>
       </None>
+      <None Update="Resources\cshtml\elements\listing.cshtml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <Generator>RazorTemplatePreprocessor</Generator>
+      </None>
+      <None Update="Resources\cshtml\elements\list-item.cshtml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <Generator>RazorTemplatePreprocessor</Generator>
+      </None>
+      <None Update="Resources\cshtml\elements\paragraph.cshtml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <Generator>RazorTemplatePreprocessor</Generator>
+      </None>
     </ItemGroup>
 
 </Project>

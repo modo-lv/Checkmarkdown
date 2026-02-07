@@ -6,13 +6,13 @@ namespace Checkmarkdown.Core.Elements;
 public enum ListingKind {
     Unordered,
     Ordered,
+    /// <summary>A checkbox list item.</summary>
+    Check,
     /// <summary>
-    /// Indicates a list item that should be output the same way as a checkbox item,
+    /// A list of items that should be output mostly the same way as checkboxes,
     /// but not actually have a checkbox.
     /// </summary>
-    Items,
-    /// <summary>A checkbox list item.</summary>
-    CheckItems,
+    PseudoCheck,
 }
 
 public class Listing : BlockContainer {
@@ -23,8 +23,8 @@ public class Listing : BlockContainer {
             this.Kind = ListingKind.Ordered;
         else
             this.Kind = mdo.BulletType switch {
-                '+' => ListingKind.CheckItems,
-                '-' => ListingKind.Items,
+                '+' => ListingKind.Check,
+                '-' => ListingKind.PseudoCheck,
                 _ => this.Kind
             };
     }
