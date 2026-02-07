@@ -25,7 +25,7 @@ public static class FromMarkdown
             EmphasisInline em => new Emphasis(em),
             HeadingBlock h => new Heading(h),
             LineBreakInline _ => new LineBreak(),
-            LinkInline l => new Link(l),
+            LinkInline _ => new Link(),
             ListBlock l => new Listing(l),
             ListItemBlock li => new ListItem(li),
             LiteralInline t => new Text(t),

@@ -51,19 +51,21 @@ public class AstProcessorPipeline
 
 
     /// <summary>List of processor types in the order that they should be run.</summary>
-    public static readonly IReadOnlyList<Type> RunOrder = [
+    public static readonly IList<Type> RunOrder = [
         // Attribute processors move attributes around the tree, so must not conflict with each other,
         // and must run before any processors that expect attributes to be correctly assigned.
         typeof(ListItemAttributeProcessor),
         typeof(DocumentAttributeProcessor),
-
-        // Must run after title
+        
+        // Must run before anything that expects ID processing to be complete.
         typeof(ExplicitIdProcessor),
-        // ID index must run after anything that might modify IDs.
+        // Must run after anything that might modify IDs.
         typeof(IdIndexProcessor),
-
+        // Must run after ID index has been built and before any link processing.
+        typeof(ImplicitShortlinkProcessor),
         // Heading-item processing is a prerequisite for correct implicit ID generation.
         typeof(HeadingItemProcessor),
+        // Must run after anything that might modify IDs or element text.
         typeof(ImplicitIdProcessor),
     ];
 
@@ -76,6 +78,7 @@ public class AstProcessorPipeline
             .Add(new DocumentAttributeProcessor())
             .Add(new ExplicitIdProcessor())
             .Add(new IdIndexProcessor())
+            .Add(new ImplicitShortlinkProcessor())
             .Add(new HeadingItemProcessor())
             .Add(new ImplicitIdProcessor());
     }

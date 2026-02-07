@@ -12,7 +12,7 @@ public class ShorthandLinkTests {
         const String input = @"[x], y and z";
         var result = MarkdownParser.ParseToAst(input);
         var link = result.First().As<ParagraphBlock>().Inline!.First().As<LinkInline>();
-        link.Url.Should().Be("x");
+        link.Url.Should().Be("");
         var text = link.Single().As<LiteralInline>();
         text.Content.Text.Should().Be("x");
     }

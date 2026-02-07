@@ -43,7 +43,7 @@ public class ShorthandLinkExtension : IMarkdownExtension {
                 return false;
 
             // Shorthand
-            processor.Inline = new LinkInline(label!, "") {
+            processor.Inline = new LinkInline("", "") {
                 LabelSpan = processor.GetSourcePositionFromLocalSpan(labelSpan),
                 IsImage = false,
                 Span = new SourceSpan(

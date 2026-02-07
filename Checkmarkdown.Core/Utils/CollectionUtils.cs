@@ -41,7 +41,7 @@ public static class CollectionUtils {
         }
     }
 
-    extension<T>(IReadOnlyList<T> list) {
+    extension<T>(IList<T> list) {
         /// <summary>
         /// Finds the index of the first item in the list matching <paramref name="predicate"/>.
         /// </summary>
