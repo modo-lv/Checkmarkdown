@@ -11,7 +11,7 @@ namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 public class TitleTests
 {
 
-    private static AstProcessorPipeline _pipeline = new();
+    private static readonly AstProcessorPipeline _pipeline = new();
 
     [Fact] void HeadingWithLinkTitle() {
         const String input = "# Heading with [link](link)";

@@ -4,7 +4,7 @@ using Checkmarkdown.Core.Elements.Meta;
 namespace Checkmarkdown.Core.Ast.Processors;
 
 /// <summary>Populates the ID-document index.</summary>
-public class IdDocumentIndexProcessor : AstProcessor {
+public class IdIndexProcessor : AstProcessor {
 
     public override Element Process(Element node) {
         if (node is Document doc) {
@@ -13,7 +13,7 @@ public class IdDocumentIndexProcessor : AstProcessor {
         }
 
         if (node.ExplicitId != null) {
-            BuildContext.IdIndex[node.ExplicitId] = (Document)Storage!;
+            BuildContext.IdIndex[Globals.Id(node.ExplicitId)] = (Document)Storage!;
         }
 
         return node;

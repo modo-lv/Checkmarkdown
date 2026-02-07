@@ -1,7 +1,6 @@
 ﻿using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Utils;
-using MoreLinq;
 
 namespace Checkmarkdown.Core.Ast;
 
@@ -58,9 +57,10 @@ public class AstProcessorPipeline
         typeof(ListItemAttributeProcessor),
         typeof(DocumentAttributeProcessor),
 
-        typeof(TitleIdProcessor),
+        // Must run after title
+        typeof(ExplicitIdProcessor),
         // ID index must run after anything that might modify IDs.
-        typeof(IdDocumentIndexProcessor),
+        typeof(IdIndexProcessor),
 
         // Heading-item processing is a prerequisite for correct implicit ID generation.
         typeof(HeadingItemProcessor),
@@ -74,8 +74,8 @@ public class AstProcessorPipeline
         return new AstProcessorPipeline()
             .Add(new ListItemAttributeProcessor())
             .Add(new DocumentAttributeProcessor())
-            .Add(new TitleIdProcessor())
-            .Add(new IdDocumentIndexProcessor())
+            .Add(new ExplicitIdProcessor())
+            .Add(new IdIndexProcessor())
             .Add(new HeadingItemProcessor())
             .Add(new ImplicitIdProcessor());
     }

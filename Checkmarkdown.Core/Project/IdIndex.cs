@@ -5,7 +5,7 @@ namespace Checkmarkdown.Core.Project;
 
 /// <summary>A reference of which IDs are located in which documents.</summary>
 /// <remarks>Also enforces global ID uniqueness.</remarks>
-public class IdDocumentIndex : Dictionary<String, Document> {
+public class IdIndex : Dictionary<String, Document> {
     
     public new Document this[String key] {
         get => base[key];

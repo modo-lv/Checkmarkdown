@@ -19,8 +19,6 @@ public static class Build
     /// are limited to one per app run. If any kind of concurrent builds and/or multiple builds per run are
     /// ever implemented, this will have to become an instance parameter.
     /// </remarks>
-    public static ProjectBuildContext Context {
-        get => field;
-    } = new();
+    public static ProjectBuildContext Context { get; set; } = new();
 
 }

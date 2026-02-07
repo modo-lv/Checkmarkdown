@@ -15,7 +15,7 @@ public class GlobalIdTests : IClassFixture<TestBuildContext> {
 
     [Fact] void Basic() {
         const String input = "a {#:id}";
-        var result = new AstProcessorPipeline().Add(new TitleIdProcessor()).RunFromMarkdown(input);
+        var result = new AstProcessorPipeline().Add(new ExplicitIdProcessor()).RunFromMarkdown(input);
         result.FirstDescendant<Paragraph>().ExplicitId.Should().Be("a");
     }
 
@@ -29,14 +29,13 @@ public class GlobalIdTests : IClassFixture<TestBuildContext> {
 
         var result = new AstProcessorPipeline()
             .Add(new ListItemAttributeProcessor())
-            .Add(new TitleIdProcessor())
+            .Add(new ExplicitIdProcessor())
             .RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>().ExplicitId.Should().Be("xx");
     }
 
-    // TODO: Add a test that tests this across multiple documents
     [Fact] void ThrowOnDuplicate() {
         const String input = @"Text {#id}
 
