@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using AngleSharp.Html;
+using AngleSharp.Html.Parser;
 using Checkmarkdown.Core;
 using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Web;
@@ -19,7 +21,11 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
         outFile.Full.Parent().CreateDirectory();
         Log.Information("Building web output: {outFile}", outFile);
         var html = RazorHtmlBuilder.Build(doc);
-        Build.FileSystem.File.WriteAllText(outFile.FullPath, html);
+        using var sw = new StringWriter();
+        new HtmlParser().ParseDocument(html).ToHtml(sw, new PrettyMarkupFormatter {
+            Indentation = "  "
+        });
+        Build.FileSystem.File.WriteAllText(outFile.FullPath, sw.ToString());
     });
     if (opts.Open != null) {
         var path = project.PathTo("out-web", "pages", opts.Open + ".html");
