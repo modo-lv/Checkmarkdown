@@ -9,6 +9,9 @@
     case Item:
         await IncludeAsync("elements/item.cshtml", Model);
         break;
+    case Link:
+        await IncludeAsync("elements/link.cshtml", Model);
+        break;
     case Listing:
         await IncludeAsync("elements/listing.cshtml", Model);
         break;
@@ -17,6 +20,9 @@
         break;
     case Paragraph:
         await IncludeAsync("elements/paragraph.cshtml", Model);
+        break;
+    case Text text:
+        @text.Content
         break;
     default:
         <span>Unrecognized element type: < @Model.GetType().Name ></span>

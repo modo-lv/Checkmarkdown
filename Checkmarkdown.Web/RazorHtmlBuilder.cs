@@ -20,6 +20,7 @@ public class RazorHtmlBuilder
     public static String Build(Document document) {
         var templatePath = System.IO.Path.Combine("Resources", "cshtml", "page.cshtml");
         var templateContent = File.ReadAllText(templatePath);
+        HtmlHelper.Document = document;
         var result = _engine.CompileRenderStringAsync("page", templateContent, document).Result!;
         return result;
     }

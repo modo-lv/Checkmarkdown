@@ -35,6 +35,10 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <Generator>RazorTemplatePreprocessor</Generator>
       </None>
+      <None Update="Resources\cshtml\elements\link.cshtml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <Generator>RazorTemplatePreprocessor</Generator>
+      </None>
     </ItemGroup>
 
 </Project>

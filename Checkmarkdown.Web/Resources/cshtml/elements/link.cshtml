@@ -1,0 +1,14 @@
+@using Checkmarkdown.Core.Elements;
+@using HtmlHelper = Checkmarkdown.Web.HtmlHelper
+
+@inherits RazorLight.TemplatePage<Link>;
+@model Link;
+
+@{
+    var target = Model.Target;
+    if (Model.IsInternal) {
+        target = HtmlHelper.Document?.PathToRoot + "/" + target;
+    }
+}
+
+<a href="@Model.Target">@{ await IncludeAsync("elements.cshtml", Model.Children); }</a>

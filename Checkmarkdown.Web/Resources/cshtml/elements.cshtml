@@ -1,7 +1,6 @@
 ﻿@inherits RazorLight.TemplatePage<IEnumerable<Element>?>;
 @using Checkmarkdown.Core.Elements.Meta;
 @model IEnumerable<Element>;
-
 @foreach (var element in Model ?? new List<Element>()) {
     await IncludeAsync("element.cshtml", element);
 }

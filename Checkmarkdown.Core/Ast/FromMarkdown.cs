@@ -25,10 +25,11 @@ public static class FromMarkdown
             EmphasisInline em => new Emphasis(em),
             HeadingBlock h => new Heading(h),
             LineBreakInline _ => new LineBreak(),
+            LinkInline l => new Link(l),
             ListBlock l => new Listing(l),
             ListItemBlock li => new ListItem(li),
-            ParagraphBlock p => new Paragraph(p),
             LiteralInline t => new Text(t),
+            ParagraphBlock p => new Paragraph(p),
             _ => new Unrecognized(mdo),
         };
 

@@ -1,5 +1,5 @@
-﻿using System.Text;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
+using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Utils;
 using MoreLinq;
@@ -9,6 +9,11 @@ namespace Checkmarkdown.Web;
 
 public static class HtmlHelper
 {
+    /// <summary>
+    /// Reference to the document currently being rendered.
+    /// </summary>
+    public static Document? Document = null;
+    
     extension(Element self)
     {
         public RawString HtmlAttributes() {
