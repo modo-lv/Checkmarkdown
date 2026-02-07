@@ -9,6 +9,8 @@ public static class AstProcessorUtils
     extension(AstProcessorPipeline self)
     {
         public Document RunFromMarkdown(String markdown) =>
-            FromMarkdown.ToCheckmarkdown(markdown, null).Let(self.Run);
+            FromMarkdown.ToCheckmarkdown(markdown, null)
+                .Let(doc => self.Run([doc]))
+                .Single();
     }
 }

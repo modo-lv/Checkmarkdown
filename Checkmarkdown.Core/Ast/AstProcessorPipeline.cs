@@ -6,7 +6,8 @@ using MoreLinq;
 namespace Checkmarkdown.Core.Ast;
 
 /// <summary>Runs a list of processors on a Checkmarkdown AST, manages build context, etc.</summary>
-public class AstProcessorPipeline {
+public class AstProcessorPipeline
+{
     // Internal queue is statically indexed, to easily match up with run order.
     private readonly AstProcessor?[] _queue = new AstProcessor[RunOrder.Count];
 
@@ -17,7 +18,7 @@ public class AstProcessorPipeline {
     /// <summary>Add an AST processor to the pipeline queue.</summary>
     /// <remarks>
     /// The correct order (<see cref="RunOrder"/>) of processors in the queue is ensured automatically.
-    /// To see the run order, check <see cref="Queue"/>.
+    /// To see the order that the processors have been queued in, check <see cref="Queue"/>.
     /// </remarks>
     public AstProcessorPipeline Add(AstProcessor processor) {
         var index =
@@ -33,12 +34,23 @@ public class AstProcessorPipeline {
         return this;
     }
 
-    public Document Run(Document doc) {
-        Queue.ForEach(it => it.ProcessRecursively(doc));
-        return doc;
+    /// <summary>Runs the processor queue over the given documents.</summary>
+    /// <param name="docs"></param>
+    /// <returns>
+    /// The pipeline queue is run in a horizontal way (each processor is run across all documents before
+    /// moving on to the next). This is necessary because of processors like link index creator, which must
+    /// index all the links in the project in order for the link processor to correctly differentiate between
+    /// valid and missing shortlinks.
+    /// </returns>
+    public IList<Document> Run(IEnumerable<Document> docs) {
+        return docs.Select(doc =>
+            Queue.Aggregate(doc, (currentDoc, processor) =>
+                (Document) processor.ProcessRecursively(currentDoc)
+            )
+        ).ToList();
     }
 
-    
+
     /// <summary>List of processor types in the order that they should be run.</summary>
     public static readonly IReadOnlyList<Type> RunOrder = [
         // Attribute processors move attributes around the tree, so must not conflict with each other,
@@ -49,7 +61,7 @@ public class AstProcessorPipeline {
         typeof(TitleIdProcessor),
         // ID index must run after anything that might modify IDs.
         typeof(IdDocumentIndexProcessor),
-        
+
         // Heading-item processing is a prerequisite for correct implicit ID generation.
         typeof(HeadingItemProcessor),
         typeof(ImplicitIdProcessor),

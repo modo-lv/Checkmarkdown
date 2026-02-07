@@ -43,13 +43,11 @@ public abstract class ProjectBase
     /// <returns><see cref="Documents"/></returns>
     public IList<Document> BuildDocuments(IList<ProjectPath> pages) {
         var ast = AstProcessorPipeline.CreateDefault();
-        pages.ForEach(page => {
+        var docs = pages.Select(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
-            FromMarkdown
-                .ToCheckmarkdown(markdown: Build.FileSystem.File.ReadAllText(page.FullPath), file: page)
-                .Let(ast.Run)
-                .Also(Documents.Add);
+            return FromMarkdown.ToCheckmarkdown(Build.FileSystem.File.ReadAllText(page.FullPath), page);
         });
+        ast.Run(docs).ForEach(Documents.Add);
 
         return Documents;
     }
