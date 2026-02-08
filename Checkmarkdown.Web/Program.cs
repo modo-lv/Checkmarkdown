@@ -13,8 +13,8 @@ using Serilog;
 Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     LogUtils.EnableLogging();
     Log.Information("Loading and building Checkmarkdown Web project...");
-    var project = new WebProject(opts.ProjectPath);
-    project.Load();
+    var project = new WebProject();
+    project.Load(opts.ProjectPath);
     var documents = project.FindPages().Let(pages => project.BuildDocuments(pages, WebAst.Pipeline));
     documents.ForEach(doc => {
         var htmlFile = doc.SourceFile!.Relative.ToString().TrimSuffix(".md") + ".html";

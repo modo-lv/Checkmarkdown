@@ -1,6 +1,6 @@
-﻿using Checkmarkdown.Core.Ast;
+﻿using System.Windows.Markup;
+using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Elements;
-using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Utils;
 using MoreLinq;
 using Serilog;
@@ -9,16 +9,20 @@ using Path = Fluent.IO.Path;
 namespace Checkmarkdown.Core.Project;
 
 /// <summary>Base class for Checkmarkdown projects.</summary>
-public abstract class ProjectBase
+public class CoreProject
 {
-    public readonly Path RootPath;
+    public Path RootPath {
+        get => field ?? throw new InvalidOperationException("Project not initialized.");
+        private set;
+    } = null;
 
     /// <summary>Project's Checkmarkdown documents, processed into ASTs ready for output.</summary>
     public readonly List<Document> Documents = [];
 
-    protected ProjectBase(String rootPath) {
+    /// <summary>Initialize the project, mainly by setting its root path.</summary>
+    public void Load(String rootPath) {
         this.RootPath = new(rootPath);
-        Log.Information("Project directory: {dir}", this.RootPath.FullPath);
+        Log.Information("Core project loaded: {dir}", this.RootPath.FullPath);
     }
 
     /// <summary>Find all Markdown files to compile into Checkmarkdown AST documents.</summary>

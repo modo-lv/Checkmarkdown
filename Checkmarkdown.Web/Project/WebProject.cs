@@ -6,14 +6,15 @@ using Serilog;
 
 namespace Checkmarkdown.Web.Project;
 
-public class WebProject(String rootPath) : ProjectBase(rootPath)
+public class WebProject : CoreProject
 {
     public WebConfig Config {
         get => field.NotNull(orError: $"Can't access [{nameof(WebProject)}.{nameof(Config)}], not loaded.");
         set;
     }
 
-    public void Load() {
+    public new void Load(String rootPath) {
+        base.Load(rootPath);
         var configFile = this.PathTo("checkmarkdown-web-config.json");
 
         if (!configFile.Exists) {
