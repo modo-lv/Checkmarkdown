@@ -1,8 +1,9 @@
-﻿using Inline = Checkmarkdown.Core.Elements.Meta.Inline;
+﻿using Markdig.Syntax.Inlines;
+using Inline = Checkmarkdown.Core.Elements.Meta.Inline;
 
 namespace Checkmarkdown.Core.Elements;
 
-public class Link : Inline
+public class Link(LinkInline input) : Inline
 {
     /// <summary>Is this a link to an external resource?</summary>
     public Boolean IsExternal { get; private set; }
@@ -17,5 +18,5 @@ public class Link : Inline
             this.IsInternal = value.StartsWith('#');
             this.IsExternal = !this.IsInternal;
         }
-    } = "";
+    } = input.Url ?? "";
 }

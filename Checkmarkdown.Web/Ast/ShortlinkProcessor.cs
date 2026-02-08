@@ -11,7 +11,7 @@ namespace Checkmarkdown.Web.Ast;
 public class ShortlinkProcessor(WebBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
-        if (node is Link { IsExternal: true } link && link.Target.StartsWith('@')) {
+        if (node is Link link && link.Target.StartsWith('@')) {
             link.Target = link.Target[1..];
             // General rewrites
             buildContext.Config.Shortlinks?.RewriteRules?.ForEach(rule => {
