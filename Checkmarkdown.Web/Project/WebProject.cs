@@ -2,6 +2,7 @@
 using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
+using Checkmarkdown.Web.Project.Config;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -23,7 +24,8 @@ public class WebProject(AstProcessorPipeline pipeline) : CoreProject(pipeline)
                 "Configuration file {file} not found, creating with default values...", configFile
             );
             Config = new WebConfig(
-                ProjectId: Guid.CreateVersion7()
+                ProjectId: Guid.CreateVersion7(),
+                Shortlinks: null
             );
 
             var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
