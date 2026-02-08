@@ -2,6 +2,7 @@
 using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Tests.Utils;
+using Checkmarkdown.Core.Tests.Wiring;
 using Checkmarkdown.Core.Utils;
 using FluentAssertions;
 using Xunit;
@@ -10,10 +11,11 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class HeadingItemTests {
-
-    private static AstProcessorPipeline _pipeline = 
-        new AstProcessorPipeline().Add(new HeadingItemProcessor());
+public class HeadingItemTests : TestServices
+{
+    private AstProcessorPipeline Pipeline =>
+        TestScope.Service<AstProcessorPipeline>()
+            .Add(TestScope.Service<HeadingItemProcessor>());
 
     [Fact] void InnerItems() {
         const String input =
@@ -22,7 +24,7 @@ public class HeadingItemTests {
             ## Mid
             ### Bot
             """;
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<Item>().Also(it => {
                 it.IsHeading.Should().BeTrue();
@@ -37,10 +39,10 @@ public class HeadingItemTests {
                 it.Title!.TitleText.Should().Be("Bot");
             });
     }
-    
+
     [Fact] void ListHeadingsAreSkipped() {
         const String input = "+ # Heading";
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .Children[0].Should().NotBeOfType<Item>();

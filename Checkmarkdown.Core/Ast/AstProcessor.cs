@@ -5,14 +5,13 @@ using Checkmarkdown.Core.Utils;
 namespace Checkmarkdown.Core.Ast;
 
 /// <summary>Base class for components that modify a Checkmarkdown AST in some way.</summary>
-public abstract class AstProcessor
+public abstract class AstProcessor(ProjectBuildContext buildContext)
 {
-    protected static ProjectBuildContext BuildContext => Build.Context;
 
     /// <summary>Direct access to this processor's storage.</summary>
     public Object? Storage {
-        get => BuildContext.AstProcessorStorage.Get(key: this.GetType());
-        set => BuildContext.AstProcessorStorage.PutOrRemove(key: this.GetType(), value);
+        get => buildContext.AstProcessorStorage.Get(key: this.GetType());
+        set => buildContext.AstProcessorStorage.PutOrRemove(key: this.GetType(), value);
     }
 
     /// <summary>Typed access to stored data, including initialization.</summary>

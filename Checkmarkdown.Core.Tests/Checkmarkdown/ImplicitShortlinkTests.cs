@@ -1,9 +1,9 @@
 ﻿using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
-using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Tests.Utils;
 using Checkmarkdown.Core.Tests.Wiring;
+using Checkmarkdown.Core.Utils;
 using FluentAssertions;
 using Xunit;
 
@@ -11,14 +11,16 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class ImplicitShortlinkTests : TestBuildContext
+public class ImplicitShortlinkTests : TestServices
 {
-    static readonly AstProcessorPipeline _pipeline = new AstProcessorPipeline()
-        .Add(new ImplicitShortlinkProcessor())
-        .Add(new IdIndexProcessor());
+    private AstProcessorPipeline Pipeline =>
+        TestScope.Service<AstProcessorPipeline>()
+            .Add(TestScope.Service<ImplicitShortlinkProcessor>())
+            .Add(TestScope.Service<IdIndexProcessor>());
+
 
     [Fact] void Internal() {
-        var doc = _pipeline.RunFromMarkdown(
+        var doc = Pipeline.RunFromMarkdown(
             """
             Target {#internal}
             [Internal]
@@ -28,7 +30,7 @@ public class ImplicitShortlinkTests : TestBuildContext
     }
 
     [Fact] void External() {
-        var doc = _pipeline.RunFromMarkdown("[External]");
+        var doc = Pipeline.RunFromMarkdown("[External]");
         doc.FirstDescendant<Link>().Target.Should().Be("@External");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
+using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
 
 namespace Checkmarkdown.Core.Ast;
@@ -68,19 +69,5 @@ public class AstProcessorPipeline
         // Must run after anything that might modify IDs or element text.
         typeof(ImplicitIdProcessor),
     ];
-
-    /// <summary>
-    /// Returns a new <see cref="AstProcessorPipeline"/> instance with all known AST processors queued.
-    /// </summary>
-    public static AstProcessorPipeline CreateDefault() {
-        return new AstProcessorPipeline()
-            .Add(new ListItemAttributeProcessor())
-            .Add(new DocumentAttributeProcessor())
-            .Add(new ExplicitIdProcessor())
-            .Add(new IdIndexProcessor())
-            .Add(new ImplicitShortlinkProcessor())
-            .Add(new HeadingItemProcessor())
-            .Add(new ImplicitIdProcessor());
-    }
-
+    
 }

@@ -1,4 +1,5 @@
 ﻿using Checkmarkdown.Core;
+using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
 using Newtonsoft.Json;
@@ -6,7 +7,7 @@ using Serilog;
 
 namespace Checkmarkdown.Web.Project;
 
-public class WebProject : CoreProject
+public class WebProject(AstProcessorPipeline pipeline) : CoreProject(pipeline)
 {
     public WebConfig Config {
         get => field.NotNull(orError: $"Can't access [{nameof(WebProject)}.{nameof(Config)}], not loaded.");

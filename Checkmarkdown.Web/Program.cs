@@ -3,19 +3,26 @@ using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using Checkmarkdown.Core;
 using Checkmarkdown.Core.Utils;
+using Checkmarkdown.Core.Wiring;
 using Checkmarkdown.Web;
-using Checkmarkdown.Web.Ast;
 using Checkmarkdown.Web.Project;
 using CommandLine;
+using Microsoft.Extensions.DependencyInjection;
 using MoreLinq;
 using Serilog;
 
 Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     LogUtils.EnableLogging();
+
+    var services = new ServiceCollection()
+        .Let(CoreServices.Configure)
+        .BuildServiceProvider();
+
+    var scope = services.CreateScope();
     Log.Information("Loading and building Checkmarkdown Web project...");
-    var project = new WebProject();
+    var project = new WebProject(scope.FullCoreAstPipeline());
     project.Load(opts.ProjectPath);
-    var documents = project.FindPages().Let(pages => project.BuildDocuments(pages, WebAst.Pipeline));
+    var documents = project.FindPages().Let(project.BuildDocuments);
     documents.ForEach(doc => {
         var htmlFile = doc.SourceFile!.Relative.ToString().TrimSuffix(".md") + ".html";
         var outFile = project.PathTo("out-web", htmlFile);

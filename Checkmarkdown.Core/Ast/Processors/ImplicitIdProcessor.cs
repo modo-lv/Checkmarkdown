@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Elements.Meta;
+using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
 
 namespace Checkmarkdown.Core.Ast.Processors;
@@ -18,7 +19,8 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// have this implicit ID: <code>chapter1/page1␝Heading␝Parent⸱List⸱Item␝Child⸱List⸱Item</code>
 /// Repeated items in the same list get a <c>␞2</c>, <c>␞3</c>, etc. suffix.
 /// </example>
-public class ImplicitIdProcessor : AstProcessor {
+public class ImplicitIdProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+{
     public const Char GroupSep = '␝'; // Group separator
     public const Char RecordSep = '␞'; // Record separator
     public const Char WordSep = '⸱'; // Word separator

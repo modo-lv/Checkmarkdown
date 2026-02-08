@@ -3,6 +3,7 @@ using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Tests.Utils;
 using Checkmarkdown.Core.Tests.Wiring;
+using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Core.Wiring.Errors;
 using FluentAssertions;
 using Xunit;
@@ -11,11 +12,14 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class GlobalIdTests : IClassFixture<TestBuildContext> {
+public class GlobalIdTests : TestServices
+{
 
     [Fact] void Basic() {
         const String input = "a {#:id}";
-        var result = new AstProcessorPipeline().Add(new ExplicitIdProcessor()).RunFromMarkdown(input);
+        var result = TestScope.Service<AstProcessorPipeline>()
+            .Add(TestScope.Service<ExplicitIdProcessor>())
+            .RunFromMarkdown(input);
         result.FirstDescendant<Paragraph>().ExplicitId.Should().Be("a");
     }
 
@@ -27,10 +31,11 @@ public class GlobalIdTests : IClassFixture<TestBuildContext> {
               * X {#xx}
             """;
 
-        var result = new AstProcessorPipeline()
-            .Add(new ListItemAttributeProcessor())
-            .Add(new ExplicitIdProcessor())
-            .RunFromMarkdown(input);
+        var result =
+            TestScope.Service<AstProcessorPipeline>()
+                .Add(TestScope.Service<ListItemAttributeProcessor>())
+                .Add(TestScope.Service<ExplicitIdProcessor>())
+                .RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>().ExplicitId.Should().Be("xx");
@@ -41,7 +46,7 @@ public class GlobalIdTests : IClassFixture<TestBuildContext> {
 
 More text {#id}";
         FluentActions.Invoking(() =>
-            AstProcessorPipeline.CreateDefault().RunFromMarkdown(input)
+            TestScope.FullCoreAstPipeline().RunFromMarkdown(input)
         ).Should().Throw<DuplicateIdException>();
     }
 

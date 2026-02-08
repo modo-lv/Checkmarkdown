@@ -3,6 +3,7 @@ using Checkmarkdown.Core.Ast.Processors;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Tests.Utils;
 using Checkmarkdown.Core.Tests.Wiring;
+using Checkmarkdown.Core.Utils;
 using FluentAssertions;
 using Xunit;
 
@@ -10,8 +11,8 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class ImplicitIdTests : IClassFixture<TestBuildContext> {
-    private static AstProcessorPipeline _pipeline = AstProcessorPipeline.CreateDefault();
+public class ImplicitIdTests : TestServices {
+    private AstProcessorPipeline Pipeline => TestScope.FullCoreAstPipeline();
 
     [Fact] void NestedWithHeading() {
         const String input =
@@ -20,7 +21,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
               + One
               + Other
             """;
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>()
@@ -30,7 +31,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
     [Fact]
     void TrimSpaces() {
         const String input = "* Heading {something}";
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result.FirstDescendant<ListItem>().ImplicitId.Should().Be("Heading");
     }
 
@@ -43,7 +44,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
                 * Sub
             """;
 
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>()
@@ -60,7 +61,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * [Carbuncle]()
             """;
 
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<Item>()
             .FirstDescendant<Item>()
@@ -83,7 +84,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * [Killer Bee]
             """;
 
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result
             .FirstDescendant<ListItem>().ImplicitId.Should().Be(
                 $"The{ImplicitIdProcessor.WordSep}Floating{ImplicitIdProcessor.WordSep}Continent" +
@@ -101,7 +102,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * Item
             * Item
             """;
-        _pipeline.RunFromMarkdown(input)
+        Pipeline.RunFromMarkdown(input)
             .FirstDescendant<Listing>()
             .Children[2] // 3rd item
             .GlobalId.Should()
@@ -118,7 +119,7 @@ public class ImplicitIdTests : IClassFixture<TestBuildContext> {
             * Item one
               * Item two
             """;
-        var doc = _pipeline.RunFromMarkdown(input);
+        var doc = Pipeline.RunFromMarkdown(input);
         doc
             .FirstDescendant<ListItem>()
             .FirstDescendant<ListItem>().GlobalId.Should().Be(

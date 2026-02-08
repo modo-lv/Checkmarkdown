@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Elements.Meta;
+using Checkmarkdown.Core.Project;
 using MoreLinq.Extensions;
 
 namespace Checkmarkdown.Core.Ast.Processors;
@@ -12,8 +13,8 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// wrapped in an <see cref="Item"/>. 
 /// </remarks>
 /// <seealso cref="Item"/>
-public class HeadingItemProcessor : AstProcessor {
-
+public class HeadingItemProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+{
     public override Element Process(Element node) {
         // Headings can't contain other headings,
         // and any headings inside a list do not become a container (the list items have that covered).  

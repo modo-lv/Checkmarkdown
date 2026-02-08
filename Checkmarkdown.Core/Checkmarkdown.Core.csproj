@@ -10,6 +10,7 @@
     <ItemGroup>
       <PackageReference Include="FluentPath" Version="2.0.0" />
       <PackageReference Include="Markdig" Version="0.44.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
       <PackageReference Include="morelinq" Version="4.4.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
       <PackageReference Include="Serilog" Version="4.3.0" />

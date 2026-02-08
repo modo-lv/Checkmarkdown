@@ -1,5 +1,4 @@
-﻿using System.Windows.Markup;
-using Checkmarkdown.Core.Ast;
+﻿using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Utils;
 using MoreLinq;
@@ -9,7 +8,7 @@ using Path = Fluent.IO.Path;
 namespace Checkmarkdown.Core.Project;
 
 /// <summary>Base class for Checkmarkdown projects.</summary>
-public class CoreProject
+public class CoreProject(AstProcessorPipeline pipeline)
 {
     public Path RootPath {
         get => field ?? throw new InvalidOperationException("Project not initialized.");
@@ -44,9 +43,8 @@ public class CoreProject
     /// Builds a list of markdown sources into processed documents, and saves them to <see cref="Documents"/>.
     /// </summary>
     /// <param name="pages">An enumeration of files (paths) containing the markdown to process.</param>
-    /// <param name="pipeline">Pipeline to use for building the pages.</param>
     /// <returns><see cref="Documents"/></returns>
-    public IList<Document> BuildDocuments(IList<ProjectPath> pages, AstProcessorPipeline pipeline) {
+    public IList<Document> BuildDocuments(IList<ProjectPath> pages) {
         var docs = pages.Select(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
             return FromMarkdown.ToCheckmarkdown(Build.FileSystem.File.ReadAllText(page.FullPath), page);

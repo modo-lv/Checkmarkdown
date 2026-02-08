@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Elements.Meta;
+using Checkmarkdown.Core.Project;
 
 namespace Checkmarkdown.Core.Ast.Processors;
 
@@ -9,7 +10,8 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// and not the <see cref="ListItem"/> element containing the paragraph.
 /// So we fix that by moving the attributes up a level.
 /// </remarks>
-public class ListItemAttributeProcessor : AstProcessor {
+public class ListItemAttributeProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+{
     public override Element Process(Element node) {
         if (node is ListItem li)
             li.Children.FirstOrDefault()?.MoveAttributesTo(li);

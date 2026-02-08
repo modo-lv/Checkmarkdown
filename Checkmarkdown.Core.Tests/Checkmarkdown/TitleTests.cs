@@ -1,6 +1,8 @@
 ﻿using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Tests.Utils;
+using Checkmarkdown.Core.Tests.Wiring;
+using Checkmarkdown.Core.Utils;
 using FluentAssertions;
 using Xunit;
 
@@ -8,14 +10,13 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class TitleTests
+public class TitleTests : TestServices
 {
-
-    private static readonly AstProcessorPipeline _pipeline = new();
+    private AstProcessorPipeline Pipeline => TestScope.Service<AstProcessorPipeline>();
 
     [Fact] void HeadingWithLinkTitle() {
         const String input = "# Heading with [link](link)";
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result.FirstDescendant<Heading>().TitleText.Should().Be("Heading with link");
     }
 
@@ -27,7 +28,7 @@ public class TitleTests
 
               Another paragraph
             """;
-        var result = _pipeline.RunFromMarkdown(input);
+        var result = Pipeline.RunFromMarkdown(input);
         result.Children[0].TitleText.Should().Be("Wicked");
     }
 

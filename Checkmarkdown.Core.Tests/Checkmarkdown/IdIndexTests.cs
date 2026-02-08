@@ -4,6 +4,7 @@ using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Tests.Utils;
 using Checkmarkdown.Core.Tests.Wiring;
+using Checkmarkdown.Core.Utils;
 using FluentAssertions;
 using Xunit;
 
@@ -11,17 +12,22 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class IdIndexTests : TestBuildContext
+public class IdIndexTests : TestServices
 {
-    private static IdIndex Index => Build.Context.IdIndex;
-    private static readonly AstProcessorPipeline _pipeline = new AstProcessorPipeline()
-        .Add(new ExplicitIdProcessor())
-        .Add(new IdIndexProcessor());
+    private IdIndex Index =>
+        TestScope.Service<ProjectBuildContext>().IdIndex;
+
+    private AstProcessorPipeline Pipeline =>
+        TestScope.Service<AstProcessorPipeline>()
+            .Add(TestScope.Service<ExplicitIdProcessor>())
+            .Add(TestScope.Service<IdIndexProcessor>());
 
     [Fact]
     void MultipleDocuments() {
-        _pipeline.RunFromMarkdown(@"Text {#text}");
-        _pipeline.RunFromMarkdown(@"[Link] {#link}");
+        Pipeline.Also(it => {
+            it.RunFromMarkdown(@"Text {#text}");
+            it.RunFromMarkdown(@"[Link] {#link}");
+        });
         Index.Should().ContainKeys("text", "link");
     }
 
@@ -31,7 +37,7 @@ public class IdIndexTests : TestBuildContext
 ## [Class Anchor](xxx) {#:id}
 ## **ID Anchor** {#:id}
 ";
-        var doc = _pipeline.RunFromMarkdown(input);
+        var doc = Pipeline.RunFromMarkdown(input);
         Index.Count.Should().Be(2);
         Index["class_anchor"].Should().Be(doc);
         Index["id_anchor"].Should().Be(doc);
@@ -43,7 +49,7 @@ public class IdIndexTests : TestBuildContext
 # Heading {#h-Anchor}
 Paragraph {#pAnchor}
 ";
-        var doc = _pipeline.RunFromMarkdown(input);
+        var doc = Pipeline.RunFromMarkdown(input);
         doc.FirstDescendant<Heading>().ExplicitId.Should().Be("h-anchor");
         doc.FirstDescendant<Paragraph>().ExplicitId.Should().Be("panchor");
         var anchors = Index;
