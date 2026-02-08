@@ -8,6 +8,7 @@ using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Core.Wiring;
 using Checkmarkdown.Web;
 using Checkmarkdown.Web.Ast;
+using Checkmarkdown.Web.Builders;
 using Checkmarkdown.Web.Project;
 using Checkmarkdown.Web.Utils;
 using CommandLine;
@@ -55,6 +56,9 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
         });
         Build.FileSystem.File.WriteAllText(outFile.FullPath, sw.ToString());
     });
+    
+    // CSS
+    CssBuilder.BuildCss(project);
 
     // Auto-open a result if configured
     if (opts.Open != null) {
