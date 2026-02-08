@@ -2,4 +2,7 @@
 
 namespace Checkmarkdown.Web.Project;
 
-public class WebBuildContext : CoreBuildContext;
+public class WebBuildContext(WebConfig config) : CoreBuildContext
+{
+    public readonly WebConfig Config = config;
+}

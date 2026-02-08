@@ -1,6 +1,6 @@
 ﻿namespace Checkmarkdown.Web.Project.Config;
 
 public record ShortlinkConfig(
-    IList<ShortlinkRewriteRule> RewriteRules, 
-    IList<ShortlinkSite> Sites
+    IList<ShortlinkRewriteRule>? RewriteRules, 
+    IList<ShortlinkSite>? Sites
 );

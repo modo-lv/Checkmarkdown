@@ -2,11 +2,14 @@
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using Checkmarkdown.Core;
+using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Core.Wiring;
 using Checkmarkdown.Web;
+using Checkmarkdown.Web.Ast;
 using Checkmarkdown.Web.Project;
+using Checkmarkdown.Web.Utils;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,18 +24,22 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     var project = new WebProject();
     project.Load(opts.ProjectPath);
 
+    AstProcessorPipeline.RunOrder.Add(typeof(ShortlinkProcessor));
+
     // Configure services, crucially the build context and extra AST processors
     var services = new ServiceCollection()
         .Let(CoreServices.Configure)
+        .AddScoped<WebBuildContext>(_ => new WebBuildContext(project.Config))
         .RemoveAll<CoreBuildContext>()
-        .AddScoped<CoreBuildContext, WebBuildContext>()
+        .AddScoped<CoreBuildContext, WebBuildContext>(sp => sp.GetRequiredService<WebBuildContext>())
+        .AddScoped<ShortlinkProcessor>()
         .BuildServiceProvider();
     using var scope = services.CreateScope();
 
     // Build the AST
-    var documents = project.FindPages().Let(pages => 
+    var documents = project.FindPages().Let(pages =>
         // ReSharper disable once AccessToDisposedClosure
-        project.BuildDocuments(pages, scope.FullCoreAstPipeline())
+        project.BuildDocuments(pages, scope.FullWebAstPipeline())
     );
 
     // Convert to output
@@ -48,7 +55,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
         });
         Build.FileSystem.File.WriteAllText(outFile.FullPath, sw.ToString());
     });
-    
+
     // Auto-open a result if configured
     if (opts.Open != null) {
         var path = project.PathTo("out-web", "pages", opts.Open + ".html");
