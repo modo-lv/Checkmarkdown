@@ -8,7 +8,7 @@ namespace Checkmarkdown.Core.Wiring;
 public static class CoreServices
 {
     public static IServiceCollection Configure(IServiceCollection services) {
-        services.AddScoped<ProjectBuildContext>();
+        services.AddScoped<CoreBuildContext>();
         services.AddScoped<AstProcessorPipeline>();
         // AST processors
         services.AddScoped<DocumentAttributeProcessor>();

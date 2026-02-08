@@ -15,7 +15,7 @@ namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 public class IdIndexTests : TestServices
 {
     private IdIndex Index =>
-        TestScope.Service<ProjectBuildContext>().IdIndex;
+        TestScope.Service<CoreBuildContext>().IdIndex;
 
     private AstProcessorPipeline Pipeline =>
         TestScope.Service<AstProcessorPipeline>()

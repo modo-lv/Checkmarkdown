@@ -13,7 +13,7 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// wrapped in an <see cref="Item"/>. 
 /// </remarks>
 /// <seealso cref="Item"/>
-public class HeadingItemProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+public class HeadingItemProcessor(CoreBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
         // Headings can't contain other headings,

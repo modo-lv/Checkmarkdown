@@ -9,7 +9,7 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// ":{..attributes..}". Markdig parses this as a paragraph with the attributes, so we move the attributes
 /// to the document.
 /// </remarks>
-public class DocumentAttributeProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+public class DocumentAttributeProcessor(CoreBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
         if (node is not Document) return node;

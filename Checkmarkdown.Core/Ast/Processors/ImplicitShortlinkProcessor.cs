@@ -7,7 +7,7 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// <summary>
 /// Rewrites implicit shortlinks (<c>[a](@))</c>, <c>[a](#)</c> and just <c>[a]</c>) into regular ones.
 /// </summary>
-public class ImplicitShortlinkProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+public class ImplicitShortlinkProcessor(CoreBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
         if (node is Link { Target: "" } link) {

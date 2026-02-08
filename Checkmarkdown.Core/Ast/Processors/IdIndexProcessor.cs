@@ -5,7 +5,7 @@ using Checkmarkdown.Core.Project;
 namespace Checkmarkdown.Core.Ast.Processors;
 
 /// <summary>Populates the ID-document index.</summary>
-public class IdIndexProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+public class IdIndexProcessor(CoreBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
         if (node is Document doc) {

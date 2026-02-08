@@ -11,7 +11,7 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// Markdig understands <c>{#id}</c> syntax and we set the ID from that during <see cref="FromMarkdown"/>
 /// conversion, but we also support generating the ID from title with <c>{#:id}</c>.
 /// </remarks>
-public class ExplicitIdProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+public class ExplicitIdProcessor(CoreBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
         if (node.ExplicitId is { } id)

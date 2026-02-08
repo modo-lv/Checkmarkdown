@@ -10,7 +10,7 @@ namespace Checkmarkdown.Core.Ast.Processors;
 /// and not the <see cref="ListItem"/> element containing the paragraph.
 /// So we fix that by moving the attributes up a level.
 /// </remarks>
-public class ListItemAttributeProcessor(ProjectBuildContext buildContext) : AstProcessor(buildContext)
+public class ListItemAttributeProcessor(CoreBuildContext buildContext) : AstProcessor(buildContext)
 {
     public override Element Process(Element node) {
         if (node is ListItem li)

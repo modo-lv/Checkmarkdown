@@ -5,7 +5,7 @@ using Checkmarkdown.Core.Utils;
 namespace Checkmarkdown.Core.Ast;
 
 /// <summary>Base class for components that modify a Checkmarkdown AST in some way.</summary>
-public abstract class AstProcessor(ProjectBuildContext buildContext)
+public abstract class AstProcessor(CoreBuildContext buildContext)
 {
 
     /// <summary>Direct access to this processor's storage.</summary>

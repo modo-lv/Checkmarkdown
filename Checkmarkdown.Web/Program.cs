@@ -2,30 +2,36 @@
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using Checkmarkdown.Core;
+using Checkmarkdown.Core.Project;
 using Checkmarkdown.Core.Utils;
 using Checkmarkdown.Core.Wiring;
 using Checkmarkdown.Web;
 using Checkmarkdown.Web.Project;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MoreLinq;
 using Serilog;
 
 Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     LogUtils.EnableLogging();
 
-    var services = new ServiceCollection()
-        .Let(CoreServices.Configure)
-        .BuildServiceProvider();
-    var scope = services.CreateScope();
-    
     // Load the project
     Log.Information("Loading and building Checkmarkdown Web project...");
     var project = new WebProject();
     project.Load(opts.ProjectPath);
 
+    // Configure services, crucially the build context and extra AST processors
+    var services = new ServiceCollection()
+        .Let(CoreServices.Configure)
+        .RemoveAll<CoreBuildContext>()
+        .AddScoped<CoreBuildContext, WebBuildContext>()
+        .BuildServiceProvider();
+    using var scope = services.CreateScope();
+
     // Build the AST
     var documents = project.FindPages().Let(pages => 
+        // ReSharper disable once AccessToDisposedClosure
         project.BuildDocuments(pages, scope.FullCoreAstPipeline())
     );
 
