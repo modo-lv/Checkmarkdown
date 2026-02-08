@@ -8,7 +8,7 @@ using Serilog;
 
 namespace Checkmarkdown.Web.Project;
 
-public class WebProject(AstProcessorPipeline pipeline) : CoreProject(pipeline)
+public class WebProject : CoreProject
 {
     public WebConfig Config {
         get => field.NotNull(orError: $"Can't access [{nameof(WebProject)}.{nameof(Config)}], not loaded.");

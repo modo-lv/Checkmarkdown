@@ -1,14 +1,14 @@
 ﻿using Checkmarkdown.Core.Ast;
 using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Utils;
-using MoreLinq;
+using MoreLinq.Extensions;
 using Serilog;
 using Path = Fluent.IO.Path;
 
 namespace Checkmarkdown.Core.Project;
 
 /// <summary>Base class for Checkmarkdown projects.</summary>
-public class CoreProject(AstProcessorPipeline pipeline)
+public class CoreProject
 {
     public Path RootPath {
         get => field ?? throw new InvalidOperationException("Project not initialized.");
@@ -43,8 +43,9 @@ public class CoreProject(AstProcessorPipeline pipeline)
     /// Builds a list of markdown sources into processed documents, and saves them to <see cref="Documents"/>.
     /// </summary>
     /// <param name="pages">An enumeration of files (paths) containing the markdown to process.</param>
+    /// <param name="pipeline">AST processor pipeline to use for building.</param>
     /// <returns><see cref="Documents"/></returns>
-    public IList<Document> BuildDocuments(IList<ProjectPath> pages) {
+    public IList<Document> BuildDocuments(IList<ProjectPath> pages, AstProcessorPipeline pipeline) {
         var docs = pages.Select(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
             return FromMarkdown.ToCheckmarkdown(Build.FileSystem.File.ReadAllText(page.FullPath), page);

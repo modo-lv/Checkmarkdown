@@ -17,12 +17,19 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
     var services = new ServiceCollection()
         .Let(CoreServices.Configure)
         .BuildServiceProvider();
-
     var scope = services.CreateScope();
+    
+    // Load the project
     Log.Information("Loading and building Checkmarkdown Web project...");
-    var project = new WebProject(scope.FullCoreAstPipeline());
+    var project = new WebProject();
     project.Load(opts.ProjectPath);
-    var documents = project.FindPages().Let(project.BuildDocuments);
+
+    // Build the AST
+    var documents = project.FindPages().Let(pages => 
+        project.BuildDocuments(pages, scope.FullCoreAstPipeline())
+    );
+
+    // Convert to output
     documents.ForEach(doc => {
         var htmlFile = doc.SourceFile!.Relative.ToString().TrimSuffix(".md") + ".html";
         var outFile = project.PathTo("out-web", htmlFile);
@@ -35,6 +42,8 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
         });
         Build.FileSystem.File.WriteAllText(outFile.FullPath, sw.ToString());
     });
+    
+    // Auto-open a result if configured
     if (opts.Open != null) {
         var path = project.PathTo("out-web", "pages", opts.Open + ".html");
         if (!File.Exists(path.FullPath))
