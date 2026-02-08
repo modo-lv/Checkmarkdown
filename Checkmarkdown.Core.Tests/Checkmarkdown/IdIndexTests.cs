@@ -50,13 +50,13 @@ public class IdIndexTests : TestServices
 Paragraph {#pAnchor}
 ";
         var doc = Pipeline.RunFromMarkdown(input);
-        doc.FirstDescendant<Heading>().ExplicitId.Should().Be("h-anchor");
-        doc.FirstDescendant<Paragraph>().ExplicitId.Should().Be("panchor");
+        doc.FirstDescendant<Heading>().ExplicitId.Should().Be("h-Anchor");
+        doc.FirstDescendant<Paragraph>().ExplicitId.Should().Be("pAnchor");
         var anchors = Index;
 
         anchors.Count.Should().Be(2);
-        anchors["h-anchor"].Should().Be(doc);
-        anchors["panchor"].Should().Be(doc);
+        anchors["h-Anchor"].Should().Be(doc);
+        anchors["pAnchor"].Should().Be(doc);
     }
 
 }

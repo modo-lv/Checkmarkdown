@@ -14,7 +14,7 @@ public class IdIndexProcessor(ProjectBuildContext buildContext) : AstProcessor(b
         }
 
         if (node.ExplicitId != null) {
-            buildContext.IdIndex[Globals.Id(node.ExplicitId)] = (Document)Storage!;
+            buildContext.IdIndex[node.ExplicitId] = (Document)Storage!;
         }
 
         return node;

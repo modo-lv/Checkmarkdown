@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Checkmarkdown.Core.Tests.Checkmarkdown;
 
-public class GlobalIdTests : TestServices
+public class ExplicitIdTests : TestServices
 {
 
     [Fact] void Basic() {

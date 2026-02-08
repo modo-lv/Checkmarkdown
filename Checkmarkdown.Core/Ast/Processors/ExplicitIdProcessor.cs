@@ -1,5 +1,6 @@
 ﻿using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Project;
+using Checkmarkdown.Core.Utils;
 
 namespace Checkmarkdown.Core.Ast.Processors;
 
@@ -14,7 +15,7 @@ public class ExplicitIdProcessor(ProjectBuildContext buildContext) : AstProcesso
 {
     public override Element Process(Element node) {
         if (node.ExplicitId is { } id)
-            node.ExplicitId = Globals.Id(id.Replace(":id", node.TitleText));
+            node.ExplicitId = id.TakeUnless(":id".Equals) ?? Globals.Id(node.TitleText);
         return node;
     }
 }
