@@ -40,14 +40,14 @@ public abstract class ProjectBase
     /// Builds a list of markdown sources into processed documents, and saves them to <see cref="Documents"/>.
     /// </summary>
     /// <param name="pages">An enumeration of files (paths) containing the markdown to process.</param>
+    /// <param name="pipeline">Pipeline to use for building the pages.</param>
     /// <returns><see cref="Documents"/></returns>
-    public IList<Document> BuildDocuments(IList<ProjectPath> pages) {
-        var ast = AstProcessorPipeline.CreateDefault();
+    public IList<Document> BuildDocuments(IList<ProjectPath> pages, AstProcessorPipeline pipeline) {
         var docs = pages.Select(page => {
             Log.Information("Building Checkmarkdown document: {file}", page);
             return FromMarkdown.ToCheckmarkdown(Build.FileSystem.File.ReadAllText(page.FullPath), page);
         });
-        ast.Run(docs).ForEach(Documents.Add);
+        pipeline.Run(docs).ForEach(Documents.Add);
 
         return Documents;
     }
