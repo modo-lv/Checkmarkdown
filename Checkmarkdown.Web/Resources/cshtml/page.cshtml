@@ -1,8 +1,12 @@
-@inherits RazorLight.TemplatePage<Document>;
 @using Checkmarkdown.Core.Elements;
+
+@inherits RazorLight.TemplatePage<Document>;
 @model Document;
 
 <html>
+<head>
+    <link rel="stylesheet" href="@Model.PathToRoot("/css/main.css")" />
+</head>
 <body>
 @{ await IncludeAsync("elements.cshtml", Model.Children); }
 </body>
