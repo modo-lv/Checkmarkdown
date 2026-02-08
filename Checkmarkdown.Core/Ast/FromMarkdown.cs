@@ -21,6 +21,7 @@ public static class FromMarkdown
     /// <summary>Convert a Markdown element to a Checkmarkdown one.</summary>
     public static Element ToCheckmarkdown(IMarkdownObject mdo) {
         Element result = mdo switch {
+            CodeInline c => new Code(c),
             MarkdownDocument _ => new Document(),
             EmphasisInline em => new Emphasis(em),
             HeadingBlock h => new Heading(h),

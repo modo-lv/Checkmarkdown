@@ -3,6 +3,9 @@
 @inherits RazorLight.TemplatePage<Element>;
 @model Element;
 @switch (Model) {
+    case Code:
+        await IncludeAsync("elements/code.cshtml", Model);
+        break;
     case Heading:
         await IncludeAsync("elements/heading.cshtml", Model);
         break;
