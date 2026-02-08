@@ -26,7 +26,7 @@ public class ImplicitShortlinkTests : TestServices
             [Internal]
             """
         );
-        doc.FirstDescendant<Link>().Target.Should().Be(":internal");
+        doc.FirstDescendant<Link>().Target.Should().Be("#internal");
     }
 
     [Fact] void External() {

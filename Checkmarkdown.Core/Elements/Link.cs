@@ -14,8 +14,8 @@ public class Link : Inline
         get;
         set {
             field = value;
-            this.IsExternal = value.StartsWith('/') || value.StartsWith('@') || value.Contains("://");
-            this.IsInternal = value.StartsWith(':');
+            this.IsInternal = value.StartsWith('#');
+            this.IsExternal = !this.IsInternal;
         }
     } = "";
 }
