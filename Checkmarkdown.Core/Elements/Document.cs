@@ -14,8 +14,8 @@ public class Document : BlockContainer
             field = value;
             ProjectFileId = value?.Relative.ToString()
                 .Replace('\\', '/').TrimPrefix("pages/").TrimSuffix(".md");
-            Depth = value?.Relative.ToString().Count(it => it == '/') ?? 0;
-            PathToRoot = "../".Repeat(Depth).TrimSuffix("/");
+            Depth = value?.Relative.Tokens.Length - 1 ?? 0;
+            RootPathRelative = "../".Repeat(Depth).TrimSuffix("/");
         }
     }
 
@@ -29,5 +29,9 @@ public class Document : BlockContainer
     /// <remarks>
     /// Use this to create links to other files, regardless of how deeply this document is nested. 
     /// </remarks>
-    public String PathToRoot { get; private set; } = "";
+    public String RootPathRelative { get; private set; } = "";
+
+    public String PathToRoot(String projectPath) {
+        return RootPathRelative + projectPath;
+    }
 }

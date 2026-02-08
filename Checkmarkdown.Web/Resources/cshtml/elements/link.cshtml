@@ -7,7 +7,7 @@
 @{
     var target = Model.Target;
     if (Model.IsInternal) {
-        target = HtmlHelper.Document?.PathToRoot + "/" + target;
+        target = HtmlHelper.Document?.PathToRoot($"/{target}");
     }
 }
 
