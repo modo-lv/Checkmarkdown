@@ -57,8 +57,10 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(opts => {
         Build.FileSystem.File.WriteAllText(outFile.FullPath, sw.ToString());
     });
     
-    // CSS
-    CssBuilder.BuildCss(project);
+    // Assets
+    new CopyAssetsBuilder(Name: "CSS", Dir: "css", Mask: "*.css").CopyAssets(project);
+    new CopyAssetsBuilder(Name: "JS", Dir: "js", Mask: "*.js").CopyAssets(project);
+    new CopyAssetsBuilder(Name: "Libs", Dir: "libs", Mask: "*.*").CopyAssets(project);
 
     // Auto-open a result if configured
     if (opts.Open != null) {

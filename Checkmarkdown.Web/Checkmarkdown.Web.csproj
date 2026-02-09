@@ -25,6 +25,8 @@
         <Generator>RazorTemplatePreprocessor</Generator>
       </None>
       <None Update="Resources\css\**\*.css" CopyToOutputDirectory="Always" />
+      <None Update="Resources\js\**\*.js" CopyToOutputDirectory="Always" />
+      <None Update="Resources\libs\**\*.*" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>

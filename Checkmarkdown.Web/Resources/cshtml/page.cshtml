@@ -6,6 +6,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="@Model.PathToRoot("/css/main.css")" />
+    <script src="@Model.PathToRoot("/libs/jquery-4.0.0.min.js")"></script>
 </head>
 <body>
 @{ await IncludeAsync("elements.cshtml", Model.Children); }
