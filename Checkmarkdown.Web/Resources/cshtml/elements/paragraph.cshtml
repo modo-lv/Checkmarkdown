@@ -1,10 +1,9 @@
-@using Checkmarkdown.Core.Elements;
-@using Checkmarkdown.Web
+@using Checkmarkdown.Core.Elements
+@using Checkmarkdown.Web.Builders
 
-@inherits RazorLight.TemplatePage<Paragraph>;
-@model Paragraph;
+@inherits RazorLight.TemplatePage<Paragraph>
+@model Paragraph
 
 <p @Model.HtmlAttributes()>
     @{ await IncludeAsync("elements.cshtml", Model?.Children); }
-
 </p>

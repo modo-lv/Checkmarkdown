@@ -1,8 +1,8 @@
-@using Checkmarkdown.Core.Elements;
-@using Checkmarkdown.Web
+@using Checkmarkdown.Core.Elements
+@using Checkmarkdown.Web.Builders
 
-@inherits RazorLight.TemplatePage<ListItem>;
-@model ListItem;
+@inherits RazorLight.TemplatePage<ListItem>
+@model ListItem
 
 <li @Model.HtmlAttributes()>
     @{ await IncludeAsync("elements.cshtml", Model?.Children); }

@@ -1,11 +1,10 @@
 ﻿using Checkmarkdown.Core.Elements;
 using RazorLight;
-using Serilog;
 using Path = Fluent.IO.Path;
 
-namespace Checkmarkdown.Web;
+namespace Checkmarkdown.Web.Builders;
 
-public class RazorHtmlBuilder
+public static class RazorHtmlBuilder
 {
     static RazorHtmlBuilder() {
         var root = $"{new Path(Environment.ProcessPath).Parent().Combine("Resources", "cshtml")}";
@@ -20,7 +19,7 @@ public class RazorHtmlBuilder
     public static String Build(Document document) {
         var templatePath = System.IO.Path.Combine("Resources", "cshtml", "page.cshtml");
         var templateContent = File.ReadAllText(templatePath);
-        HtmlHelper.Document = document;
+        RazorHtmlHelper.Document = document;
         var result = _engine.CompileRenderStringAsync("page", templateContent, document).Result!;
         return result;
     }

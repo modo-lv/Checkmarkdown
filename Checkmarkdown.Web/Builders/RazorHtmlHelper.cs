@@ -6,9 +6,9 @@ using MoreLinq;
 using RazorLight;
 using RazorLight.Text;
 
-namespace Checkmarkdown.Web;
+namespace Checkmarkdown.Web.Builders;
 
-public static class HtmlHelper
+public static class RazorHtmlHelper
 {
     /// <summary>
     /// Reference to the document currently being rendered.
