@@ -68,6 +68,8 @@ public class AstProcessorPipeline
         typeof(HeadingItemProcessor),
         // Must run after anything that might modify IDs or element text.
         typeof(ImplicitIdProcessor),
+        // Should run as one of the last, as it moves IDs, attributes etc. between elements. 
+        typeof(ItemListUnwrapProcessor),
     ];
     
 }

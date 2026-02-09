@@ -18,6 +18,7 @@ public static class CoreServices
         services.AddScoped<ImplicitIdProcessor>();
         services.AddScoped<ImplicitShortlinkProcessor>();
         services.AddScoped<ListItemAttributeProcessor>();
+        services.AddScoped<ItemListUnwrapProcessor>();
         return services;
     }
 }

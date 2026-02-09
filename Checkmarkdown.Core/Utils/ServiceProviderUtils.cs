@@ -21,7 +21,8 @@ public static class ServiceProviderUtils
                 .Add(scope.Service<IdIndexProcessor>())
                 .Add(scope.Service<ImplicitIdProcessor>())
                 .Add(scope.Service<ImplicitShortlinkProcessor>())
-                .Add(scope.Service<ListItemAttributeProcessor>());
+                .Add(scope.Service<ListItemAttributeProcessor>())
+                .Add(scope.Service<ItemListUnwrapProcessor>());
         }
     }
 }
