@@ -8,9 +8,16 @@
 
 <@tagName @Model.HtmlAttributes()>
     <header>
-        @{ await IncludeAsync("element.cshtml", Model?.Title); }
+        @if (Model.IsCheckItem) {
+            <div class="@this.Cmd("checkbox")"><input type="checkbox" id="@Model.GlobalId"/></div>
+        }
+        <div class="@this.Cmd("title")">
+            @{ await IncludeAsync("element.cshtml", Model.Title); }
+        </div>
     </header>
-    <div class="content">
-        @{ await IncludeAsync("elements.cshtml", Model?.Content); }
-    </div>
+    @if (Model.Content.Any()) {
+        <div class="@this.Cmd("content")">
+            @{ await IncludeAsync("elements.cshtml", Model.Content); }
+        </div>
+    }
 </@tagName>

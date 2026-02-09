@@ -3,6 +3,7 @@ using Checkmarkdown.Core.Elements;
 using Checkmarkdown.Core.Elements.Meta;
 using Checkmarkdown.Core.Utils;
 using MoreLinq;
+using RazorLight;
 using RazorLight.Text;
 
 namespace Checkmarkdown.Web;
@@ -13,6 +14,11 @@ public static class HtmlHelper
     /// Reference to the document currently being rendered.
     /// </summary>
     public static Document? Document = null;
+
+    extension(TemplatePage<Item> page)
+    {
+        public String Cmd(String text) => $"cmd--{text}";
+    }
     
     extension(Element self)
     {
